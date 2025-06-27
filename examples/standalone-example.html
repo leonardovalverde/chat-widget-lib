@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Widget - Global Configuration Example</title>
+
+    <!-- CSS do widget -->
+    <link rel="stylesheet" href="../dist/widget.css" />
+
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        line-height: 1.6;
+      }
+
+      .hero {
+        background: white;
+        padding: 60px 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero h1 {
+        font-size: 3em;
+        margin: 0 0 20px 0;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.2em;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .content-section {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 2em;
+      }
+
+      .content-section p {
+        color: #666;
+        margin-bottom: 20px;
+        font-size: 1.1em;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .feature-card {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .feature-icon {
+        font-size: 3em;
+        margin-bottom: 20px;
+      }
+
+      .feature-card h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+      }
+
+      .feature-card p {
+        color: #666;
+        margin: 0;
+      }
+
+      .chat-demo-section {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 16px;
+        padding: 40px;
+        margin: 40px 0;
+        text-align: center;
+      }
+
+      .chat-demo-section h2 {
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .chat-demo-section p {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 30px;
+      }
+
+      .inline-chat-container {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        max-width: 500px;
+        margin: 30px auto;
+        height: 600px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 30px 0;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #ffecd2, #fcb69f);
+        color: #333;
+      }
+
+      .btn-secondary:hover {
+        box-shadow: 0 8px 20px rgba(252, 182, 159, 0.4);
+      }
+
+      .status-bar {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        padding: 15px;
+        border-radius: 12px;
+        margin: 20px 0;
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .footer {
+        background: #2c3e50;
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+        margin-top: 60px;
+      }
+
+      .footer h3 {
+        margin-bottom: 20px;
+      }
+
+      .footer p {
+        color: #bdc3c7;
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2em;
+        }
+
+        .content-section {
+          padding: 20px;
+          margin: 20px 0;
+        }
+
+        .controls {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>🚀 Leo AI Chat Widget</h1>
+      <p>
+        Experience the power of conversational AI with our customizable chat
+        widget. Perfect for customer support, lead generation, and user
+        engagement.
+      </p>
+    </div>
+
+    <div class="container">
+      <!-- Status Bar -->
+      <div class="status-bar">
+        ✅ OpenAI API Connected | 🎯 Real-time Responses | 🎨 Fully Customizable
+      </div>
+
+      <!-- Features Section -->
+      <div class="content-section">
+        <h2>🎯 Powerful Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>AI-Powered</h3>
+            <p>
+              Powered by OpenAI GPT-4o mini for intelligent, context-aware
+              conversations
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Fully Customizable</h3>
+            <p>
+              Colors, fonts, layouts, and styling - make it match your brand
+              perfectly
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Responsive Design</h3>
+            <p>Works beautifully on desktop, tablet, and mobile devices</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Easy Integration</h3>
+            <p>Single script tag integration with global configuration</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🔧</div>
+            <h3>Flexible Deployment</h3>
+            <p>Use as floating widget or embed inline anywhere on your page</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🎭</div>
+            <h3>Multiple Modes</h3>
+            <p>Floating button, inline embed, minimizable, and more options</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Widget Controls -->
+      <div class="content-section">
+        <h2>🎮 Try the Controls</h2>
+        <p>
+          Test different widget configurations and see how they work in
+          real-time.
+        </p>
+
+        <div class="controls">
+          <button class="btn" onclick="showFloatingWidget()">
+            Show Floating Chat
+          </button>
+          <button class="btn" onclick="hideFloatingWidget()">
+            Hide Floating Chat
+          </button>
+          <button class="btn btn-secondary" onclick="changeColors()">
+            Change Colors
+          </button>
+          <button class="btn btn-secondary" onclick="switchToTechTheme()">
+            Tech Theme
+          </button>
+        </div>
+      </div>
+
+      <!-- Inline Chat Demo -->
+      <div class="chat-demo-section">
+        <h2>💬 Inline Chat Demo</h2>
+        <p>
+          This chat widget is embedded directly in the page content. It's
+          perfect for dedicated support pages or help centers.
+        </p>
+
+        <div class="inline-chat-container" id="inline-chat-container">
+          <!-- O widget inline será renderizado aqui -->
+        </div>
+
+        <div class="controls">
+          <button class="btn" onclick="restartInlineChat()">
+            Restart Chat
+          </button>
+          <button class="btn btn-secondary" onclick="changeInlineTheme()">
+            Change Theme
+          </button>
+        </div>
+      </div>
+
+      <!-- Integration Guide -->
+      <div class="content-section">
+        <h2>📋 Integration Guide</h2>
+        <p>
+          Getting started is incredibly simple. Just add these two lines to your
+          HTML:
+        </p>
+
+        <div
+          style="
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            font-family: monospace;
+            overflow-x: auto;
+          "
+        >
+          <pre style="margin: 0; white-space: pre-wrap">
+&lt;!-- 1. Configure the widget --&gt;
+&lt;script&gt;
+  window.ChatWidgetConfig = {
+    apiKey: "your-openai-api-key",
+    branding: {
+      botName: "Your Assistant",
+      colors: {
+        primary: "#3b82f6",
+        userMessageBg: "linear-gradient(135deg, #3b82f6, #8b5cf6)"
+      }
+    }
+  };
+&lt;/script&gt;
+
+&lt;!-- 2. Load the widget --&gt;
+&lt;script src="widget.umd.js"&gt;&lt;/script&gt;
+</pre
+          >
+        </div>
+
+        <p>
+          That's it! Your AI-powered chat widget is now live and ready to engage
+          with your users.
+        </p>
+      </div>
+
+      <!-- Live Example Section -->
+      <div class="content-section">
+        <h2>🔥 Live Examples</h2>
+        <p>
+          Try both widgets below. The floating widget appears in the
+          bottom-right corner, while the inline widget is embedded above in the
+          pink section.
+        </p>
+
+        <div
+          style="
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+          "
+        >
+          <h3>🎯 Current Configuration</h3>
+          <div
+            style="
+              text-align: left;
+              max-width: 600px;
+              margin: 0 auto;
+              background: white;
+              padding: 20px;
+              border-radius: 8px;
+              font-family: monospace;
+              font-size: 14px;
+            "
+          >
+            <strong>Floating Widget:</strong> Bottom-right, minimized by
+            default<br />
+            <strong>Inline Widget:</strong> Embedded in pink section above<br />
+            <strong>Theme:</strong> Leo AI Premium with blue gradients<br />
+            <strong>AI Model:</strong> GPT-4o mini with custom prompts<br />
+            <strong>Features:</strong> Real-time responses, typing indicators,
+            error handling
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <h3>🚀 Leo AI Chat Widget</h3>
+      <p>
+        Built with React, TypeScript, and OpenAI. Customize everything to match
+        your brand and use case.
+      </p>
+    </div>
+
+    <!-- Widget Configuration -->
+    <script>
+      // Configuração global para ambos os widgets
+      window.ChatWidgetConfig = {
+        chatbotId: "demo-floating-bot",
+        apiKey:
+          "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",
+        isFloating: true,
+        floatingPosition: "bottom-right",
+        defaultMinimized: true,
+        openai: {
+          systemPrompt:
+            "You are Leo AI, a helpful demo assistant showcasing this chat widget's capabilities. Be friendly and informative!",
+          maxTokens: 500,
+          temperature: 0.7,
+        },
+        branding: {
+          botName: "Leo AI",
+          subtitle: "Demo Assistant",
+          colors: {
+            primary: "#3b82f6",
+            secondary: "#8b5cf6",
+            headerBg: "linear-gradient(135deg, #f8fafc, #f0f9ff)",
+            userMessageBg: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+            botMessageBg: "#ffffff",
+          },
+        },
+        placeholder: "Ask me about this widget...",
+        enableMockResponses: true,
+        onSendMessage: (message) => {
+          console.log("Global handler - Message sent:", message);
+        },
+        onAIResponse: (response, userMessage) => {
+          console.log("Global handler - AI responded:", response);
+        },
+        onAIError: (error, userMessage) => {
+          console.error("Global handler - AI error:", error);
+        },
+      };
+
+      // Controles do widget flutuante
+      function showFloatingWidget() {
+        if (window.ChatWidget) {
+          window.ChatWidget.show();
+        }
+      }
+
+      function hideFloatingWidget() {
+        if (window.ChatWidget) {
+          window.ChatWidget.hide();
+        }
+      }
+
+      function changeColors() {
+        if (window.ChatWidget) {
+          window.ChatWidget.update({
+            branding: {
+              botName: "ColorBot",
+              subtitle: "Theme Updated!",
+              colors: {
+                primary: "#10b981",
+                secondary: "#059669",
+                headerBg: "linear-gradient(135deg, #ecfdf5, #d1fae5)",
+                userMessageBg: "linear-gradient(135deg, #10b981, #059669)",
+                botMessageBg: "#f0fdf4",
+              },
+            },
+          });
+        }
+      }
+
+      function switchToTechTheme() {
+        if (window.ChatWidget) {
+          window.ChatWidget.update({
+            branding: {
+              botName: "TECH.AI",
+              subtitle: ">>> system ready",
+              colors: {
+                primary: "#22c55e",
+                secondary: "#16a34a",
+                headerBg: "#0a0a0a",
+                userMessageBg: "#22c55e",
+                botMessageBg: "#1a1a1a",
+                headerText: "#22c55e",
+                botMessageText: "#22c55e",
+                userMessageText: "#000000",
+              },
+            },
+          });
+        }
+      }
+
+      function restartInlineChat() {
+        // Reiniciar o chat inline
+        const container = document.getElementById("inline-chat-container");
+        if (container && window.ChatWidget) {
+          container.innerHTML = "";
+
+          // Criar novo widget inline
+          setTimeout(() => {
+            window.ChatWidget.createInline({
+              containerId: "inline-chat-container",
+              branding: {
+                botName: "Inline Assistant",
+                subtitle: "embedded in page",
+                colors: {
+                  primary: "#f59e0b",
+                  secondary: "#f97316",
+                  headerBg: "linear-gradient(135deg, #fef3c7, #fed7aa)",
+                  userMessageBg: "linear-gradient(135deg, #f59e0b, #f97316)",
+                  botMessageBg: "linear-gradient(135deg, #ddd6fe, #c7d2fe)",
+                },
+              },
+              placeholder: "Ask me anything inline!",
+              openai: {
+                systemPrompt:
+                  "You are an inline chat assistant. Be helpful and mention that you're embedded in the page!",
+              },
+            });
+          }, 100);
+        }
+      }
+
+      function changeInlineTheme() {
+        const container = document.getElementById("inline-chat-container");
+        if (container && window.ChatWidget) {
+          container.innerHTML = "";
+
+          setTimeout(() => {
+            window.ChatWidget.createInline({
+              containerId: "inline-chat-container",
+              branding: {
+                botName: "Purple Bot",
+                subtitle: "new theme applied",
+                colors: {
+                  primary: "#d946ef",
+                  secondary: "#c026d3",
+                  headerBg: "linear-gradient(135deg, #fdf2f8, #fae8ff)",
+                  userMessageBg: "linear-gradient(135deg, #d946ef, #c026d3)",
+                  botMessageBg: "#fdf4ff",
+                },
+              },
+              placeholder: "Purple theme activated!",
+              openai: {
+                systemPrompt:
+                  "You are now using a purple theme! Comment on how nice it looks.",
+              },
+            });
+          }, 100);
+        }
+      }
+
+      // Inicializar widget inline quando a página carregar
+      window.addEventListener("load", function () {
+        setTimeout(() => {
+          if (window.ChatWidget && window.ChatWidget.createInline) {
+            window.ChatWidget.createInline({
+              containerId: "inline-chat-container",
+              branding: {
+                botName: "Inline Demo",
+                subtitle: "embedded assistant",
+                colors: {
+                  primary: "#f59e0b",
+                  secondary: "#f97316",
+                  headerBg: "linear-gradient(135deg, #fef3c7, #fed7aa)",
+                  userMessageBg: "linear-gradient(135deg, #f59e0b, #f97316)",
+                  botMessageBg: "linear-gradient(135deg, #ddd6fe, #c7d2fe)",
+                },
+              },
+              placeholder: "Try the inline chat here!",
+              openai: {
+                systemPrompt:
+                  "You are an inline chat demo. Explain that you're embedded directly in the page content, perfect for support sections!",
+              },
+            });
+          }
+        }, 1000);
+      });
+    </script>
+
+    <!-- Load the widget -->
+    <script src="../dist/widget.umd.js"></script>
+  </body>
+</html>

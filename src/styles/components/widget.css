@@ -1,0 +1,63 @@
+.chat-leos-widget {
+  width: var(--chat-leos-widget-width);
+  height: var(--chat-leos-widget-height);
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-leos-widget-floating {
+  position: fixed;
+  z-index: var(--chat-leos-z-floating);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: var(--chat-leos-widget-width);
+  max-height: var(--chat-leos-widget-height);
+}
+
+.chat-leos-widget-floating.bottom-right {
+  bottom: 1.25rem;
+  right: 1.25rem;
+}
+.chat-leos-widget-floating.bottom-left {
+  bottom: 1.25rem;
+  left: 1.25rem;
+}
+.chat-leos-widget-floating.top-right {
+  top: 1.25rem;
+  right: 1.25rem;
+}
+.chat-leos-widget-floating.top-left {
+  top: 1.25rem;
+  left: 1.25rem;
+}
+
+.chat-leos-widget-minimized {
+  height: var(--chat-leos-widget-minimized-height) !important;
+  width: var(--chat-leos-widget-minimized-width) !important;
+  cursor: pointer;
+  max-width: var(--chat-leos-widget-minimized-width);
+  max-height: var(--chat-leos-widget-minimized-height);
+}
+
+.chat-leos-widget-minimized .chat-leos-content {
+  display: none;
+}
+
+.chat-leos-content {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+}
+
+.chat-leos-widget.chat-leos-widget-floating:not(.chat-leos-widget-minimized) {
+  width: var(--chat-leos-widget-width);
+  height: var(--chat-leos-widget-height);
+}

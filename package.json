@@ -1,0 +1,76 @@
+{
+  "name": "@leonardo-silva/chat-widget-lib",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A modern AI-powered React chat widget with global window configuration",
+  "main": "dist/chat-widget-lib.umd.js",
+  "module": "dist/chat-widget-lib.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/chat-widget-lib.es.js",
+      "require": "./dist/chat-widget-lib.umd.js"
+    },
+    "./widget": "./dist/widget.umd.js",
+    "./widget.css": "./dist/widget.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:lib && npm run build:widget",
+    "build:lib": "vite build",
+    "build:widget": "vite build --config vite.widget.config.ts",
+    "prepublishOnly": "npm run clean && npm run build",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "serve:example": "cd examples && python3 -m http.server 8080",
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardo-silva/chat-widget-lib.git"
+  },
+  "keywords": [
+    "react",
+    "chat",
+    "widget",
+    "ai",
+    "openai",
+    "gpt",
+    "typescript",
+    "floating",
+    "customer-support",
+    "standalone",
+    "global",
+    "window-config",
+    "chatbase",
+    "inline",
+    "customizable"
+  ],
+  "author": "Leonardo Silva <seu-email@example.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/leonardo-silva/chat-widget-lib#readme",
+  "bugs": {
+    "url": "https://github.com/leonardo-silva/chat-widget-lib/issues"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "tailwindcss": "^4.0.0-alpha.20",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vite-plugin-dts": "^3.6.0"
+  },
+  "dependencies": {}
+}

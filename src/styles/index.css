@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Definir onde buscar as classes */
+
+/* Base styles */
+@import "./base/variables.css";
+
+/* Component styles */
+@import "./components/widget.css";
+@import "./components/header.css";
+@import "./components/messages.css";
+@import "./components/floating.css";
+@import "./components/animations.css";
+
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
