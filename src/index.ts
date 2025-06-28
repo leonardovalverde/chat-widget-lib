@@ -1,4 +1,5 @@
-import "./styles/index.css";
+export { styled, css, keyframes, defaultTheme } from "./styles/styled";
+export type { Theme } from "./styles/styled";
 
 // Main component
 export { ChatWidget } from "./components/ChatWidget";
@@ -11,6 +12,8 @@ export { ChatInput } from "./components/ui/ChatInput";
 export { TypingIndicator } from "./components/ui/TypingIndicator";
 export { FloatingButton } from "./components/ui/FloatingButton";
 export { MaintenanceBanner } from "./components/ui/MaintenanceBanner";
+
+// Styled components
 
 // Icons
 export {
@@ -56,7 +59,7 @@ export {
   generateMockResponse,
   simulateThinkingDelay,
 } from "./utils/mockResponses";
-export { combineClasses, getWidgetClasses } from "./utils/cssClasses";
+export { createShadowRoot, insertGlobalStyles } from "./utils/shadowDom";
 
 // Global configuration
 export type { GlobalChatConfig } from "./global/globalConfig";
