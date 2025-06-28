@@ -1,5 +1,6 @@
-/* filepath: src/components/ChatWidget.tsx */
 import React, { useState } from "react";
+import { withShadowDom } from "../utils/withShadowDom";
+import { createRoot } from "react-dom/client";
 import { ChatHeader } from "./ui/ChatHeader";
 import { ChatMessages } from "./composite/ChatMessages";
 import { ChatInput } from "./ui/ChatInput";
@@ -12,10 +13,14 @@ import { useMessageState } from "../hooks/useMessageState";
 import { useUnreadCounter } from "../hooks/useUnreadCounter";
 import { useMinimizeState } from "../hooks/useMinimizeState";
 import { useChatLogic } from "../hooks/useChatLogic";
-import { getWidgetClasses } from "../utils/cssClasses";
 import { type WidgetProps } from "../types/components";
+import { defaultTheme } from "../styles/styled";
+import {
+  WidgetContainer,
+  ContentArea,
+} from "../styles/components/ChatWidget.styled";
 
-export const ChatWidget: React.FC<WidgetProps> = ({
+const ChatWidgetComponent: React.FC<WidgetProps> = ({
   // Style props
   containerStyle,
   headerStyle,
@@ -134,6 +139,19 @@ export const ChatWidget: React.FC<WidgetProps> = ({
     return placeholder;
   };
 
+  // Create theme with merged branding
+  const theme = {
+    ...defaultTheme,
+    colors: {
+      ...defaultTheme.colors,
+      ...brandingConfig.colors,
+    },
+    typography: {
+      ...defaultTheme.typography,
+      ...brandingConfig.typography,
+    },
+  };
+
   // Render floating button when minimized
   if (isFloating && isMinimized) {
     return (
@@ -147,28 +165,16 @@ export const ChatWidget: React.FC<WidgetProps> = ({
     );
   }
 
-  // CSS classes
-  const widgetClasses = getWidgetClasses(
-    isFloating,
-    floatingPosition,
-    isMinimized,
-    containerClassName
-  );
-
-  // Container styles
-  const containerDynamicStyle = {
-    background: brandingConfig.colors.containerBg,
-    fontFamily: brandingConfig.typography.fontFamily,
-    borderColor: brandingConfig.colors.borderColor,
-    ...containerStyle,
-  };
-
   const isCurrentlyTyping = isTyping || isOpenAILoading;
 
   return (
-    <div
-      className={`chat-leos-widget border rounded-xl shadow-xl flex flex-col overflow-hidden ${widgetClasses}`}
-      style={containerDynamicStyle}
+    <WidgetContainer
+      theme={theme}
+      isFloating={isFloating}
+      isMinimized={isMinimized}
+      position={floatingPosition}
+      style={containerStyle}
+      className={containerClassName}
     >
       <ChatHeader
         isMinimized={isMinimized}
@@ -183,12 +189,10 @@ export const ChatWidget: React.FC<WidgetProps> = ({
       />
 
       {!isMinimized && (
-        <div
-          className={`chat-leos-content flex-1 flex flex-col min-h-0 ${contentClassName}`}
-          style={{
-            background: brandingConfig.colors.contentBg,
-            ...contentStyle,
-          }}
+        <ContentArea
+          theme={theme}
+          style={contentStyle}
+          className={contentClassName}
         >
           <ChatMessages
             messages={messages}
@@ -222,8 +226,10 @@ export const ChatWidget: React.FC<WidgetProps> = ({
             icons={icons}
             branding={branding}
           />
-        </div>
+        </ContentArea>
       )}
-    </div>
+    </WidgetContainer>
   );
 };
+
+export const ChatWidget = withShadowDom(ChatWidgetComponent);

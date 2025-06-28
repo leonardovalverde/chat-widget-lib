@@ -1,59 +1,51 @@
-/* filepath: src/components/composite/ChatMessages.tsx */
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { ChatMessage } from "../ui/ChatMessage";
 import { TypingIndicator } from "../ui/TypingIndicator";
 import { useBranding } from "../../hooks/useBranding";
-import { type Message, type BrandingConfig } from "../../types/theme";
+import { type Message } from "../../types/common";
+import { type BrandingConfig } from "../../types/branding";
+import { defaultTheme } from "../../styles/styled";
+import { MessagesContainer } from "../../styles/components/ChatMessages.styled";
 
 interface ChatMessagesProps {
   messages: Message[];
-  isTyping: boolean;
+  isTyping?: boolean;
   messageClassName?: string;
   userMessageClassName?: string;
   messageStyle?: React.CSSProperties;
   userMessageStyle?: React.CSSProperties;
-  children?: React.ReactNode;
   branding?: BrandingConfig;
+  children?: React.ReactNode;
 }
 
-/**
- * Messages container component
- * Handles the scrollable list of messages and typing indicator
- */
 export const ChatMessages: React.FC<ChatMessagesProps> = ({
   messages,
-  isTyping,
-  messageClassName,
-  userMessageClassName,
+  isTyping = false,
+  messageClassName = "",
+  userMessageClassName = "",
   messageStyle,
   userMessageStyle,
-  children,
   branding,
+  children,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { colors, typography } = useBranding(branding);
 
-  // Auto scroll to bottom when new messages arrive
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
-  }, [messages, isTyping]);
-
-  // CORRIGIDO: Usar messagesBg em vez de contentBg
-  const messagesStyle = {
-    background: colors.messagesBg,
-    fontFamily: typography.fontFamily,
+  // Create theme with merged branding
+  const theme = {
+    ...defaultTheme,
+    colors: {
+      ...defaultTheme.colors,
+      ...colors,
+    },
+    typography: {
+      ...defaultTheme.typography,
+      ...typography,
+    },
   };
 
   return (
-    <div
-      className="chat-leos-messages flex-1 overflow-y-auto p-6 space-y-4"
-      style={messagesStyle}
-    >
+    <MessagesContainer theme={theme}>
       {messages.map((message) => (
         <ChatMessage
           key={message.id}
@@ -76,6 +68,6 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
 
       {children}
       <div ref={messagesEndRef} />
-    </div>
+    </MessagesContainer>
   );
 };

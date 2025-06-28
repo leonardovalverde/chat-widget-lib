@@ -1,4 +1,3 @@
-/* filepath: src/components/ui/ChatHeader.tsx */
 import React from "react";
 import { useIcons } from "../../hooks/useIcons";
 import { useBranding } from "../../hooks/useBranding";
@@ -8,6 +7,20 @@ import {
   type BrandingConfig,
   type ServiceStatus,
 } from "../../types/theme";
+import { defaultTheme } from "../../styles/styled";
+import {
+  HeaderContainer,
+  HeaderContent,
+  Avatar,
+  HeaderText,
+  BotName,
+  BotSubtitle,
+  StatusIndicator,
+  StatusDot,
+  Controls,
+  ControlButton,
+  UnreadBadge,
+} from "../../styles/components/ChatHeader.styled";
 
 interface ChatHeaderProps {
   isMinimized: boolean;
@@ -36,44 +49,37 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   const { botName, subtitle, logo, colors, typography } = useBranding(branding);
   const status = useServiceStatus(serviceStatus);
 
-  const baseClasses =
-    "chat-leos-header p-6 border-b flex items-center flex-shrink-0 shadow-sm";
-  const dynamicStyle = {
-    backgroundColor: colors.headerBg,
-    color: colors.headerText,
-    borderBottomColor: colors.borderColor,
-    fontFamily: typography.fontFamily,
-    ...headerStyle,
+  // Create theme with merged branding
+  const theme = {
+    ...defaultTheme,
+    colors: {
+      ...defaultTheme.colors,
+      ...colors,
+    },
+    typography: {
+      ...defaultTheme.typography,
+      ...typography,
+    },
   };
 
   // Status indicator component
-  const StatusIndicator = () => {
+  const StatusIndicatorComponent = () => {
     if (status.isMaintenanceMode) {
       return (
-        <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
-          <span className="text-xs text-amber-600 font-medium">
-            Maintenance
-          </span>
-        </div>
+        <StatusIndicator theme={theme}>
+          <StatusDot isMaintenance={true} />
+          <span style={{ color: "#f59e0b" }}>Maintenance</span>
+        </StatusIndicator>
       );
     }
 
     return (
-      <div className="flex items-center gap-1">
-        <div
-          className={`w-2 h-2 rounded-full ${
-            status.isOnline ? "bg-green-500 animate-pulse" : "bg-red-500"
-          }`}
-        ></div>
-        <span
-          className={`text-xs font-medium ${
-            status.isOnline ? "text-green-600" : "text-red-600"
-          }`}
-        >
+      <StatusIndicator theme={theme}>
+        <StatusDot isOnline={status.isOnline} />
+        <span style={{ color: status.isOnline ? "#059669" : "#dc2626" }}>
           {status.isOnline ? "Online" : "Offline"}
         </span>
-      </div>
+      </StatusIndicator>
     );
   };
 
@@ -94,104 +100,79 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
 
   if (isMinimized) {
     return (
-      <button
-        className={`${baseClasses} ${headerClassName} w-full text-left relative overflow-hidden`}
-        style={dynamicStyle}
+      <HeaderContainer
+        as="button"
+        theme={theme}
+        isMinimized={isMinimized}
+        style={headerStyle}
+        className={headerClassName}
         onClick={onToggleMinimize}
         onKeyDown={handleKeyDown}
         aria-label="Expand chat widget"
         title="Click to expand chat"
       >
-        <div className="flex items-center gap-3 w-full h-full">
+        <HeaderContent>
           {logo ? (
-            <div className="w-8 h-8">{logo}</div>
+            <div style={{ width: "32px", height: "32px" }}>{logo}</div>
           ) : (
-            <div
-              className="w-8 h-8 rounded-md flex items-center justify-center text-white text-sm flex-shrink-0"
-              style={{
-                background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-              }}
+            <Avatar
+              theme={theme}
+              gradient={`linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`}
             >
               {typeof icons?.botIcon === "string" ? icons.botIcon : "🤖"}
-            </div>
+            </Avatar>
           )}
 
-          <div className="flex flex-col justify-center min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <h3
-                className="font-semibold text-base leading-tight truncate"
-                style={{
-                  fontSize: typography.headerFontSize,
-                  fontWeight: typography.headerFontWeight,
-                  color: colors.headerText,
-                }}
-              >
-                {botName}
-              </h3>
-              {status.showDetailedStatus && <StatusIndicator />}
+          <HeaderText>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <BotName theme={theme}>{botName}</BotName>
+              {status.showDetailedStatus && <StatusIndicatorComponent />}
             </div>
-          </div>
-        </div>
+          </HeaderText>
+        </HeaderContent>
 
         {unreadCount > 0 && (
-          <span className="chat-leos-unread-badge bg-red-500 text-white flex items-center justify-center">
+          <UnreadBadge theme={theme}>
             {unreadCount > 9 ? "9+" : unreadCount}
-          </span>
+          </UnreadBadge>
         )}
-      </button>
+      </HeaderContainer>
     );
   }
 
   return (
-    <div className={`${baseClasses} ${headerClassName}`} style={dynamicStyle}>
-      <div className="flex items-center gap-3 flex-1">
+    <HeaderContainer
+      theme={theme}
+      isMinimized={isMinimized}
+      style={headerStyle}
+      className={headerClassName}
+    >
+      <HeaderContent>
         {logo ? (
-          <div className="flex-shrink-0">{logo}</div>
+          <div style={{ flexShrink: 0 }}>{logo}</div>
         ) : (
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-lg flex-shrink-0"
-            style={{
-              background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-            }}
+          <Avatar
+            theme={theme}
+            gradient={`linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`}
           >
             {typeof icons?.botIcon === "string" ? icons.botIcon : "🤖"}
-          </div>
+          </Avatar>
         )}
 
-        <div className="flex flex-col flex-1">
-          <div className="flex items-center gap-2">
-            <h3
-              className="font-semibold"
-              style={{
-                fontSize: typography.headerFontSize,
-                fontWeight: typography.headerFontWeight,
-                color: colors.headerText,
-              }}
-            >
-              {botName}
-            </h3>
-            {status.showDetailedStatus && <StatusIndicator />}
+        <HeaderText>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <BotName theme={theme}>{botName}</BotName>
+            {status.showDetailedStatus && <StatusIndicatorComponent />}
           </div>
-          <p
-            className="text-sm mt-1"
-            style={{
-              color: colors.textSecondary,
-              fontFamily: typography.fontFamily,
-            }}
-          >
-            {getSubtitle()}
-          </p>
-        </div>
-      </div>
+          <BotSubtitle theme={theme}>{getSubtitle()}</BotSubtitle>
+        </HeaderText>
+      </HeaderContent>
 
-      <div className="chat-leos-controls">
-        <button
-          className="chat-leos-control-button flex items-center justify-center"
+      <Controls>
+        <ControlButton
+          theme={theme}
+          variant="minimize"
           onClick={onToggleMinimize}
-          style={{
-            backgroundColor: `${colors.textSecondary}20`,
-            color: colors.textSecondary,
-          }}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -202,8 +183,8 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           aria-label="Minimize chat"
         >
           {minimizeIcon}
-        </button>
-      </div>
-    </div>
+        </ControlButton>
+      </Controls>
+    </HeaderContainer>
   );
 };

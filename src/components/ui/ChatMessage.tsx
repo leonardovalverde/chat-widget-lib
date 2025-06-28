@@ -1,7 +1,8 @@
-/* filepath: src/components/ui/ChatMessage.tsx */
 import React from "react";
 import { useBranding } from "../../hooks/useBranding";
 import { type BrandingConfig, type Message } from "../../types/theme";
+import { defaultTheme } from "../../styles/styled";
+import { MessageBubble } from "../../styles/components/ChatMessages.styled";
 
 interface ChatMessageProps {
   message: Message;
@@ -23,43 +24,37 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   const { colors, typography } = useBranding(branding);
   const isUser = message.sender === "user";
 
-  const baseMessageClasses = "px-4 py-3 mb-4 flex-shrink-0 rounded-lg";
-
-  const botStyle = {
-    backgroundColor: colors.botMessageBg,
-    color: colors.botMessageText,
-    fontSize: typography.messageFontSize,
-    fontWeight: typography.messageFontWeight,
-    lineHeight: typography.messageLineHeight,
-    fontFamily: typography.fontFamily,
-    alignSelf: "flex-start",
-    maxWidth: "80%",
-    borderRadius: "1.25rem 1.25rem 1.25rem 0.375rem",
-    ...messageStyle,
+  // Create theme with merged branding
+  const theme = {
+    ...defaultTheme,
+    colors: {
+      ...defaultTheme.colors,
+      ...colors,
+    },
+    typography: {
+      ...defaultTheme.typography,
+      ...typography,
+    },
   };
-
-  const userStyle = {
-    background: colors.userMessageBg,
-    color: colors.userMessageText,
-    fontSize: typography.messageFontSize,
-    fontWeight: typography.messageFontWeight,
-    lineHeight: typography.messageLineHeight,
-    fontFamily: typography.fontFamily,
-    alignSelf: "flex-end",
-    maxWidth: "80%",
-    borderRadius: "1.25rem 1.25rem 0.375rem 1.25rem",
-    ...userMessageStyle,
-  };
-
-  const botClasses = `chat-leos-message ${baseMessageClasses} ${messageClassName}`;
-  const userClasses = `chat-leos-user-message ${baseMessageClasses} ${userMessageClassName}`;
 
   return (
-    <div
-      className={isUser ? userClasses : botClasses}
-      style={isUser ? userStyle : botStyle}
+    <MessageBubble
+      theme={theme}
+      isUser={isUser}
+      customBg={
+        isUser
+          ? (userMessageStyle?.background as string)
+          : (messageStyle?.background as string)
+      }
+      customColor={
+        isUser
+          ? (userMessageStyle?.color as string)
+          : (messageStyle?.color as string)
+      }
+      style={isUser ? userMessageStyle : messageStyle}
+      className={isUser ? userMessageClassName : messageClassName}
     >
       {message.content}
-    </div>
+    </MessageBubble>
   );
 };

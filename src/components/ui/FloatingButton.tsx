@@ -1,12 +1,19 @@
 import React from "react";
 import { useIcons } from "../../hooks/useIcons";
 import { useBranding } from "../../hooks/useBranding";
-import { type IconConfig, type BrandingConfig } from "../../types/theme";
+import { type FloatingPosition } from "../../types/common";
+import { type IconConfig, type BrandingConfig } from "../../types/branding";
+import { defaultTheme } from "../../styles/styled";
+import {
+  FloatingButtonContainer,
+  FloatingIcon,
+  FloatingUnreadBadge,
+} from "../../styles/components/FloatingButton.styled";
 
 interface FloatingButtonProps {
   onClick: () => void;
-  position: string;
-  unreadCount: number;
+  position: FloatingPosition;
+  unreadCount?: number;
   icons?: IconConfig;
   branding?: BrandingConfig;
 }
@@ -14,33 +21,41 @@ interface FloatingButtonProps {
 export const FloatingButton: React.FC<FloatingButtonProps> = ({
   onClick,
   position,
-  unreadCount,
+  unreadCount = 0,
   icons,
   branding,
 }) => {
-  const { floatingIcon } = useIcons(icons);
+  const { chatIcon, floatingIcon } = useIcons(icons);
   const { colors } = useBranding(branding);
 
-  const buttonStyle = {
-    background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+  // Create theme with merged branding
+  const theme = {
+    ...defaultTheme,
+    colors: {
+      ...defaultTheme.colors,
+      ...colors,
+    },
   };
 
+  // Usar floatingIcon se disponível, senão usar chatIcon
+  const iconToRender = floatingIcon || chatIcon;
+
   return (
-    <button
-      className={`chat-leos-floating-button ${position}`}
+    <FloatingButtonContainer
+      theme={theme}
+      position={position}
+      gradient={`linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`}
       onClick={onClick}
-      aria-label="Open Leo AI chat"
-      style={buttonStyle}
+      aria-label="Open chat"
+      title="Open chat"
     >
-      <span className="text-white text-xl flex items-center justify-center">
-        {floatingIcon}
-      </span>
+      <FloatingIcon>{iconToRender}</FloatingIcon>
 
       {unreadCount > 0 && (
-        <span className="chat-leos-unread-badge bg-red-500 text-white flex items-center justify-center">
+        <FloatingUnreadBadge theme={theme}>
           {unreadCount > 9 ? "9+" : unreadCount}
-        </span>
+        </FloatingUnreadBadge>
       )}
-    </button>
+    </FloatingButtonContainer>
   );
 };

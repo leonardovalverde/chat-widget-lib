@@ -1,7 +1,50 @@
-/* filepath: src/components/ui/MaintenanceBanner.tsx */
 import React from "react";
 import { useBranding } from "../../hooks/useBranding";
 import { type BrandingConfig } from "../../types/branding";
+import { styled } from "../../styles/styled";
+import { defaultTheme } from "../../styles/styled";
+
+const BannerContainer = styled("div")<{ theme: any }>`
+  margin: 0 ${(props) => props.theme.spacing.lg}
+    ${(props) => props.theme.spacing.sm} ${(props) => props.theme.spacing.lg};
+  padding: ${(props) => props.theme.spacing.md};
+  border-left: 4px solid #f59e0b;
+  border-radius: 0 ${(props) => props.theme.borderRadius.sm}
+    ${(props) => props.theme.borderRadius.sm} 0;
+  box-shadow: ${(props) => props.theme.shadows.sm};
+  background-color: #fef3c7;
+  color: #92400e;
+`;
+
+const BannerContent = styled("div")`
+  display: flex;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.sm};
+`;
+
+const BannerIcon = styled("div")`
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+`;
+
+const BannerText = styled("div")`
+  flex: 1;
+`;
+
+const BannerTitle = styled("h4")<{ theme: any }>`
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0 0 4px 0;
+  font-family: ${(props) => props.theme.typography.fontFamily};
+`;
+
+const BannerMessage = styled("p")<{ theme: any }>`
+  font-size: ${(props) => props.theme.typography.messageFontSize};
+  margin: 0;
+  opacity: 0.9;
+  font-family: ${(props) => props.theme.typography.fontFamily};
+`;
 
 interface MaintenanceBannerProps {
   message?: string;
@@ -9,39 +52,29 @@ interface MaintenanceBannerProps {
 }
 
 export const MaintenanceBanner: React.FC<MaintenanceBannerProps> = ({
-  message = "System is currently under maintenance. Please try again later.",
+  message = "Service is currently under maintenance. Please try again later.",
   branding,
 }) => {
   const { typography } = useBranding(branding);
 
-  const bannerStyle = {
-    backgroundColor: "#fef3c7",
-    borderColor: "#f59e0b",
-    color: "#92400e",
-    fontFamily: typography.fontFamily,
-    fontSize: typography.messageFontSize,
+  // Create theme with merged branding
+  const theme = {
+    ...defaultTheme,
+    typography: {
+      ...defaultTheme.typography,
+      ...typography,
+    },
   };
 
   return (
-    <div
-      className="mx-4 mb-2 p-3 border-l-4 rounded-r-lg shadow-sm"
-      style={bannerStyle}
-    >
-      <div className="flex items-center gap-2">
-        <div className="flex-shrink-0">
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        <div className="flex-1">
-          <p className="font-medium text-sm">🔧 Maintenance Mode</p>
-          <p className="text-sm mt-1 opacity-90">{message}</p>
-        </div>
-      </div>
-    </div>
+    <BannerContainer theme={theme}>
+      <BannerContent>
+        <BannerIcon>⚠️</BannerIcon>
+        <BannerText>
+          <BannerTitle theme={theme}>Maintenance Mode</BannerTitle>
+          <BannerMessage theme={theme}>{message}</BannerMessage>
+        </BannerText>
+      </BannerContent>
+    </BannerContainer>
   );
 };
