@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { ChatMessage } from "../ui/ChatMessage";
-import { TypingIndicator } from "../ui/TypingIndicator";
+import { TypingIndicatorComponent } from "../ui/TypingIndicator";
 import { useBranding } from "../../hooks/useBranding";
 import { type Message } from "../../types/common";
 import { type BrandingConfig } from "../../types/branding";
@@ -60,7 +60,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
 
       {/* Typing indicator */}
       {isTyping && (
-        <TypingIndicator
+        <TypingIndicatorComponent
           messageClassName={messageClassName}
           branding={branding}
         />

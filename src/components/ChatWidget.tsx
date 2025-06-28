@@ -17,6 +17,7 @@ import {
   WidgetContainer,
   ContentArea,
 } from "../styles/components/ChatWidget.styled";
+import { createPortal } from "react-dom";
 
 const ChatWidget: React.FC<WidgetProps> = ({
   // Style props
@@ -49,7 +50,6 @@ const ChatWidget: React.FC<WidgetProps> = ({
   serviceStatus,
 
   // Floating props
-  isFloating = false,
   defaultMinimized = false,
   floatingPosition = "bottom-right",
 
@@ -150,9 +150,11 @@ const ChatWidget: React.FC<WidgetProps> = ({
     },
   };
 
-  // Render floating button when minimized
-  if (isFloating && isMinimized) {
-    return (
+  const isCurrentlyTyping = isTyping || isOpenAILoading;
+
+  // Se for floating e estiver minimizado, mostrar apenas o botão flutuante
+  if (isMinimized) {
+    const floatingButton = (
       <FloatingButton
         onClick={handleToggleMinimize}
         position={floatingPosition}
@@ -161,14 +163,12 @@ const ChatWidget: React.FC<WidgetProps> = ({
         branding={branding}
       />
     );
+    return createPortal(floatingButton, document.body);
   }
 
-  const isCurrentlyTyping = isTyping || isOpenAILoading;
-
-  return (
+  const widget = (
     <WidgetContainer
       theme={theme}
-      isFloating={isFloating}
       isMinimized={isMinimized}
       position={floatingPosition}
       style={containerStyle}
@@ -228,6 +228,8 @@ const ChatWidget: React.FC<WidgetProps> = ({
       )}
     </WidgetContainer>
   );
+
+  return createPortal(widget, document.body);
 };
 
 export { ChatWidget };

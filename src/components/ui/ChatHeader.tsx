@@ -23,9 +23,9 @@ import {
 } from "../../styles/components/ChatHeader.styled";
 
 interface ChatHeaderProps {
-  isMinimized: boolean;
-  isTyping: boolean;
-  unreadCount: number;
+  isMinimized?: boolean;
+  isTyping?: boolean;
+  unreadCount?: number;
   onToggleMinimize: () => void;
   headerClassName?: string;
   headerStyle?: React.CSSProperties;
@@ -113,7 +113,18 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
       >
         <HeaderContent>
           {logo ? (
-            <div style={{ width: "32px", height: "32px" }}>{logo}</div>
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "24px",
+              }}
+            >
+              {logo}
+            </div>
           ) : (
             <Avatar
               theme={theme}
@@ -131,7 +142,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           </HeaderText>
         </HeaderContent>
 
-        {unreadCount > 0 && (
+        {unreadCount && unreadCount > 0 && (
           <UnreadBadge theme={theme}>
             {unreadCount > 9 ? "9+" : unreadCount}
           </UnreadBadge>
@@ -149,7 +160,19 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
     >
       <HeaderContent>
         {logo ? (
-          <div style={{ flexShrink: 0 }}>{logo}</div>
+          <div
+            style={{
+              flexShrink: 0,
+              width: "40px",
+              height: "40px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "32px",
+            }}
+          >
+            {logo}
+          </div>
         ) : (
           <Avatar
             theme={theme}

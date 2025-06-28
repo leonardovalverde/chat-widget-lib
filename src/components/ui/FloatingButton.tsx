@@ -6,13 +6,12 @@ import { type IconConfig, type BrandingConfig } from "../../types/branding";
 import { defaultTheme } from "../../styles/styled";
 import {
   FloatingButtonContainer,
-  FloatingIcon,
-  FloatingUnreadBadge,
+  UnreadBadge,
 } from "../../styles/components/FloatingButton.styled";
 
 interface FloatingButtonProps {
   onClick: () => void;
-  position: FloatingPosition;
+  position?: FloatingPosition;
   unreadCount?: number;
   icons?: IconConfig;
   branding?: BrandingConfig;
@@ -20,13 +19,13 @@ interface FloatingButtonProps {
 
 export const FloatingButton: React.FC<FloatingButtonProps> = ({
   onClick,
-  position,
+  position = "bottom-right",
   unreadCount = 0,
   icons,
   branding,
 }) => {
   const { chatIcon, floatingIcon } = useIcons(icons);
-  const { colors } = useBranding(branding);
+  const { colors, logo } = useBranding(branding);
 
   // Create theme with merged branding
   const theme = {
@@ -37,8 +36,8 @@ export const FloatingButton: React.FC<FloatingButtonProps> = ({
     },
   };
 
-  // Usar floatingIcon se disponível, senão usar chatIcon
-  const iconToRender = floatingIcon || chatIcon;
+  // Prioridade: logo do branding > floatingIcon > chatIcon > default
+  const iconToRender = logo || floatingIcon || chatIcon || "💬";
 
   return (
     <FloatingButtonContainer
@@ -49,12 +48,23 @@ export const FloatingButton: React.FC<FloatingButtonProps> = ({
       aria-label="Open chat"
       title="Open chat"
     >
-      <FloatingIcon>{iconToRender}</FloatingIcon>
+      <div
+        style={{
+          fontSize: "24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        {iconToRender}
+      </div>
 
       {unreadCount > 0 && (
-        <FloatingUnreadBadge theme={theme}>
+        <UnreadBadge theme={theme}>
           {unreadCount > 9 ? "9+" : unreadCount}
-        </FloatingUnreadBadge>
+        </UnreadBadge>
       )}
     </FloatingButtonContainer>
   );

@@ -3,18 +3,16 @@ import { useBranding } from "../../hooks/useBranding";
 import { type BrandingConfig } from "../../types/branding";
 import { defaultTheme } from "../../styles/styled";
 import {
-  TypingIndicator as StyledTypingIndicator,
+  TypingIndicator,
   TypingDots,
   TypingDot,
 } from "../../styles/components/ChatMessages.styled";
 
 interface TypingIndicatorProps {
-  messageClassName?: string;
   branding?: BrandingConfig;
 }
 
-export const TypingIndicator: React.FC<TypingIndicatorProps> = ({
-  messageClassName = "",
+export const TypingIndicatorComponent: React.FC<TypingIndicatorProps> = ({
   branding,
 }) => {
   const { colors, typography } = useBranding(branding);
@@ -33,13 +31,13 @@ export const TypingIndicator: React.FC<TypingIndicatorProps> = ({
   };
 
   return (
-    <StyledTypingIndicator theme={theme} className={messageClassName}>
-      <span>AI is typing</span>
+    <TypingIndicator theme={theme}>
+      <span>typing</span>
       <TypingDots>
-        <TypingDot delay={-0.32} />
-        <TypingDot delay={-0.16} />
-        <TypingDot delay={0} />
+        <TypingDot theme={theme} delay={0} />
+        <TypingDot theme={theme} delay={0.16} />
+        <TypingDot theme={theme} delay={0.32} />
       </TypingDots>
-    </StyledTypingIndicator>
+    </TypingIndicator>
   );
 };
