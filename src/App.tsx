@@ -1,16 +1,30 @@
-// src/dev/App.tsx
 import React, { useState } from "react";
 
 import { type BrandingConfig } from "./types/branding";
+import { type ServiceStatus } from "./types/theme";
 import { ChatWidget } from "./components/ChatWidget";
 
 const App: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState<string>("default");
+  const [serviceStatus, setServiceStatus] = useState<ServiceStatus>({
+    isOnline: true,
+    isMaintenanceMode: false,
+    showDetailedStatus: true,
+  });
 
-  const themes: Record<string, BrandingConfig> = {
+  // ====================================================
+  // CUSTOMIZATION EXAMPLES - NOT DEFAULT THEMES
+  // ====================================================
+  // These are examples of how you can customize
+  // colors, texts and appearance of the chat widget.
+  // You can create your own configurations!
+  // ====================================================
+
+  const customizationExamples: Record<string, BrandingConfig> = {
     default: {
       botName: "Leo AI",
       subtitle: "Development Mode",
+      logo: "🤖",
       colors: {
         primary: "#3b82f6",
         secondary: "#8b5cf6",
@@ -22,6 +36,7 @@ const App: React.FC = () => {
     green: {
       botName: "EcoBot",
       subtitle: "Green Theme",
+      logo: "🌱",
       colors: {
         primary: "#10b981",
         secondary: "#059669",
@@ -33,6 +48,7 @@ const App: React.FC = () => {
     purple: {
       botName: "PurpleBot",
       subtitle: "Purple Vibes",
+      logo: "💜",
       colors: {
         primary: "#d946ef",
         secondary: "#c026d3",
@@ -44,6 +60,7 @@ const App: React.FC = () => {
     dark: {
       botName: "DarkBot",
       subtitle: "Dark Mode",
+      logo: "🔥",
       colors: {
         primary: "#22c55e",
         secondary: "#16a34a",
@@ -62,106 +79,236 @@ const App: React.FC = () => {
     },
   };
 
+  const setOnlineStatus = () => {
+    setServiceStatus({
+      isOnline: true,
+      isMaintenanceMode: false,
+      showDetailedStatus: true,
+    });
+  };
+
+  const setOfflineStatus = () => {
+    setServiceStatus({
+      isOnline: false,
+      isMaintenanceMode: false,
+      showDetailedStatus: true,
+    });
+  };
+
+  const setMaintenanceStatus = () => {
+    setServiceStatus({
+      isOnline: false,
+      isMaintenanceMode: true,
+      maintenanceMessage: "System under maintenance. Please try again later.",
+      showDetailedStatus: true,
+    });
+  };
+
+  const getStatusText = () => {
+    if (serviceStatus.isMaintenanceMode) return "🔧 Maintenance";
+    if (!serviceStatus.isOnline) return "⚠️ Offline";
+    return "✅ Online";
+  };
+
+  const getSystemPrompt = () => {
+    const baseName = customizationExamples[currentTheme].botName;
+
+    if (serviceStatus.isMaintenanceMode) {
+      return `You are ${baseName} but the system is under maintenance. Explain that you're temporarily unavailable for full responses but can provide basic help.`;
+    }
+
+    if (!serviceStatus.isOnline) {
+      return `You are ${baseName} but the service is currently offline. You should not be able to respond normally.`;
+    }
+
+    return `You are ${baseName} in floating mode! Test the different positions and minimizing. The service is fully online and operational.`;
+  };
+
   return (
     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>🚀 Chat Widget - Development Mode</h1>
+      <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
+        <h1>🚀 Chat Widget - Floating Mode Demo</h1>
 
-      <div style={{ marginBottom: "20px" }}>
-        <h3>Theme Selector:</h3>
-        {Object.keys(themes).map((theme) => (
-          <button
-            key={theme}
-            onClick={() => setCurrentTheme(theme)}
+        <div style={{ marginBottom: "20px" }}>
+          <h3>🎨 Customization Examples (Not Default Themes):</h3>
+          <p style={{ fontSize: "14px", color: "#666", marginBottom: "15px" }}>
+            These are examples showing how you can customize the widget's
+            appearance. Create your own colors, logos, and styling!
+          </p>
+          <div
             style={{
-              margin: "5px",
-              padding: "8px 16px",
-              backgroundColor: currentTheme === theme ? "#3b82f6" : "#f3f4f6",
-              color: currentTheme === theme ? "white" : "black",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              gap: "10px",
+              flexWrap: "wrap",
             }}
           >
-            {theme.charAt(0).toUpperCase() + theme.slice(1)}
-          </button>
-        ))}
+            {Object.keys(customizationExamples).map((theme) => (
+              <button
+                key={theme}
+                onClick={() => setCurrentTheme(theme)}
+                style={{
+                  padding: "8px 16px",
+                  backgroundColor:
+                    currentTheme === theme ? "#3b82f6" : "#f3f4f6",
+                  color: currentTheme === theme ? "white" : "black",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                }}
+              >
+                {theme.charAt(0).toUpperCase() + theme.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginBottom: "20px" }}>
+          <h3>🔧 Service Status Testing:</h3>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "10px",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              onClick={setOnlineStatus}
+              style={{
+                padding: "8px 16px",
+                backgroundColor:
+                  serviceStatus.isOnline && !serviceStatus.isMaintenanceMode
+                    ? "#10b981"
+                    : "#f3f4f6",
+                color:
+                  serviceStatus.isOnline && !serviceStatus.isMaintenanceMode
+                    ? "white"
+                    : "black",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              ✅ Online
+            </button>
+            <button
+              onClick={setOfflineStatus}
+              style={{
+                padding: "8px 16px",
+                backgroundColor:
+                  !serviceStatus.isOnline && !serviceStatus.isMaintenanceMode
+                    ? "#ef4444"
+                    : "#f3f4f6",
+                color:
+                  !serviceStatus.isOnline && !serviceStatus.isMaintenanceMode
+                    ? "white"
+                    : "black",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              ⚠️ Offline
+            </button>
+            <button
+              onClick={setMaintenanceStatus}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: serviceStatus.isMaintenanceMode
+                  ? "#f59e0b"
+                  : "#f3f4f6",
+                color: serviceStatus.isMaintenanceMode ? "white" : "black",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              🔧 Maintenance
+            </button>
+          </div>
+        </div>
       </div>
 
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "20px",
-          marginTop: "20px",
+          maxWidth: "800px",
+          margin: "0 auto",
+          textAlign: "center",
+          marginTop: "40px",
         }}
       >
-        {/* Widget Inline */}
-        <div>
-          <h3>📱 Inline Widget</h3>
+        <div
+          style={{
+            border: "2px dashed #ccc",
+            padding: "40px",
+            borderRadius: "12px",
+            background: "#f8f9fa",
+          }}
+        >
+          <h2>🎈 Floating Chat Widget Demo</h2>
+          <p style={{ fontSize: "18px", color: "#666", marginBottom: "30px" }}>
+            The floating widget appears fixed in the bottom-right corner of the
+            screen
+          </p>
+          <p style={{ fontSize: "16px", color: "#888" }}>
+            🎯 It doesn't take up space here - it's always on top of all
+            elements!
+          </p>
+          <p style={{ fontSize: "16px", color: "#888" }}>
+            🎨 Use the buttons above to test different customization examples
+            and service status
+          </p>
           <div
             style={{
-              border: "2px dashed #ccc",
-              padding: "20px",
-              borderRadius: "12px",
+              marginTop: "20px",
+              padding: "10px",
+              backgroundColor: serviceStatus.isMaintenanceMode
+                ? "#fef3c7"
+                : !serviceStatus.isOnline
+                ? "#fee2e2"
+                : "#d1fae5",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: "bold",
             }}
           >
-            <ChatWidget
-              branding={themes[currentTheme]}
-              placeholder="Test inline mode..."
-              onSendMessage={(msg) => console.log("Inline sent:", msg)}
-              onAIResponse={(response, userMsg) =>
-                console.log("Inline AI:", response)
-              }
-              apiKey="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"
-              openai={{
-                systemPrompt: `You are ${themes[currentTheme].botName}, testing in development mode. Be helpful and mention the current theme!`,
-                maxTokens: 300,
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Widget Floating */}
-        <div>
-          <h3>🎈 Floating Widget</h3>
-          <div
-            style={{
-              border: "2px dashed #ccc",
-              padding: "20px",
-              borderRadius: "12px",
-              position: "relative",
-              height: "400px",
-            }}
-          >
-            <ChatWidget
-              isFloating={true}
-              floatingPosition="bottom-right"
-              defaultMinimized={false}
-              branding={themes[currentTheme]}
-              placeholder="Test floating mode..."
-              onSendMessage={(msg) => console.log("Floating sent:", msg)}
-              onAIResponse={(response, userMsg) =>
-                console.log("Floating AI:", response)
-              }
-              apiKey="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"
-              openai={{
-                systemPrompt: `You are ${themes[currentTheme].botName} in floating mode! Test the different positions and minimizing.`,
-                maxTokens: 300,
-              }}
-            />
+            Current Status: {getStatusText()}
           </div>
         </div>
       </div>
 
-      <div style={{ marginTop: "40px" }}>
+      {/* Widget Floating - RENDERED OUTSIDE ANY CONTAINER */}
+      <ChatWidget
+        floatingPosition="bottom-right"
+        defaultMinimized={true}
+        branding={customizationExamples[currentTheme]}
+        serviceStatus={serviceStatus}
+        placeholder="Test floating mode..."
+        onSendMessage={(msg) => console.log("Floating sent:", msg)}
+        onAIResponse={(response, userMsg) =>
+          console.log("Floating AI:", response)
+        }
+        apiKey="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"
+        openai={{
+          systemPrompt: getSystemPrompt(),
+          maxTokens: 300,
+        }}
+      />
+
+      <div
+        style={{ marginTop: "40px", maxWidth: "800px", margin: "40px auto" }}
+      >
         <h3>🧪 Test Features</h3>
-        <ul>
-          <li>✅ Switch themes to test styling</li>
-          <li>✅ Test both inline and floating modes</li>
+        <ul style={{ textAlign: "left" }}>
+          <li>✅ Switch customization examples to test styling and logos</li>
+          <li>✅ Test different service status (Online/Offline/Maintenance)</li>
+          <li>✅ Test floating widget minimize/maximize</li>
           <li>✅ Send messages and test AI responses</li>
-          <li>✅ Test minimize/maximize in floating mode</li>
           <li>✅ Check responsive behavior</li>
-          <li>✅ Test error handling (invalid API key)</li>
+          <li>✅ Test different logo styles per customization</li>
+          <li>✅ Verify consistent logo between button and header</li>
+          <li>✅ Test input disabled states based on service status</li>
         </ul>
       </div>
 
@@ -171,14 +318,23 @@ const App: React.FC = () => {
           padding: "20px",
           backgroundColor: "#f9fafb",
           borderRadius: "12px",
+          maxWidth: "800px",
+          margin: "20px auto",
         }}
       >
         <h4>📝 Development Notes</h4>
         <p>
-          <strong>Current Theme:</strong> {currentTheme}
+          <strong>Current Customization:</strong> {currentTheme}
         </p>
         <p>
-          <strong>Bot Name:</strong> {themes[currentTheme].botName}
+          <strong>Bot Name:</strong>{" "}
+          {customizationExamples[currentTheme].botName}
+        </p>
+        <p>
+          <strong>Logo:</strong> {customizationExamples[currentTheme].logo}
+        </p>
+        <p>
+          <strong>Service Status:</strong> {getStatusText()}
         </p>
         <p>
           <strong>Check Console:</strong> All events are logged to browser
@@ -188,6 +344,55 @@ const App: React.FC = () => {
           <strong>Hot Reload:</strong> Changes in source files will update
           automatically
         </p>
+        <p>
+          <strong>Floating Widget:</strong> Always appears fixed in the
+          bottom-right corner, on top of all page elements
+        </p>
+
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "15px",
+            backgroundColor: "#e5e7eb",
+            borderRadius: "8px",
+          }}
+        >
+          <h5>🎛️ Status Testing Guide:</h5>
+          <ul style={{ margin: "10px 0", paddingLeft: "20px" }}>
+            <li>
+              <strong>Online:</strong> Full functionality, AI responses enabled,
+              input active
+            </li>
+            <li>
+              <strong>Offline:</strong> Input disabled, "Service currently
+              offline..." placeholder
+            </li>
+            <li>
+              <strong>Maintenance:</strong> Input disabled, maintenance banner
+              shown, special placeholder
+            </li>
+          </ul>
+        </div>
+
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "15px",
+            backgroundColor: "#dbeafe",
+            borderRadius: "8px",
+          }}
+        >
+          <h5>💡 Customization Info:</h5>
+          <p style={{ margin: "5px 0", fontSize: "14px" }}>
+            The examples above are <strong>not built-in themes</strong> - they
+            demonstrate how you can customize the widget's appearance using the{" "}
+            <code>branding</code> prop.
+          </p>
+          <p style={{ margin: "5px 0", fontSize: "14px" }}>
+            You can create unlimited custom styles by configuring colors, fonts,
+            logos, and text to match your brand perfectly!
+          </p>
+        </div>
       </div>
     </div>
   );

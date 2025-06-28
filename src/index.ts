@@ -9,7 +9,7 @@ export { ChatHeader } from "./components/ui/ChatHeader";
 export { ChatMessages } from "./components/composite/ChatMessages";
 export { ChatMessage } from "./components/ui/ChatMessage";
 export { ChatInput } from "./components/ui/ChatInput";
-export { TypingIndicator } from "./components/ui/TypingIndicator";
+export { TypingIndicatorComponent } from "./components/ui/TypingIndicator";
 export { FloatingButton } from "./components/ui/FloatingButton";
 export { MaintenanceBanner } from "./components/ui/MaintenanceBanner";
 
@@ -59,7 +59,6 @@ export {
   generateMockResponse,
   simulateThinkingDelay,
 } from "./utils/mockResponses";
-export { createShadowRoot, insertGlobalStyles } from "./utils/shadowDom";
 
 // Global configuration
 export type { GlobalChatConfig } from "./global/globalConfig";
