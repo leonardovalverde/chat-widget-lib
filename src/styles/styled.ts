@@ -77,28 +77,28 @@ export const defaultTheme: Theme = {
     borderColor: "#e2e8f0",
     textColor: "#374151",
     textSecondary: "#6b7280",
-    contentBg: "linear-gradient(to bottom, #f8fafc, #f1f5f9)",
+    contentBg: "#ffffff",
   },
   typography: {
     fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    messageFontSize: "0.875rem",
-    messageFontWeight: "400",
-    headerFontSize: "1.125rem",
-    headerFontWeight: "600",
-    messageLineHeight: "1.5",
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    messageFontSize: "14px",
+    messageFontWeight: 400,
+    headerFontSize: "16px",
+    headerFontWeight: 600,
+    messageLineHeight: 1.5,
   },
   spacing: {
-    xs: "0.25rem",
-    sm: "0.5rem",
-    md: "1rem",
-    lg: "1.5rem",
-    xl: "2rem",
+    xs: "4px",
+    sm: "8px",
+    md: "12px",
+    lg: "16px",
+    xl: "20px",
   },
   borderRadius: {
-    sm: "0.375rem",
-    md: "0.75rem",
-    lg: "1.25rem",
+    sm: "6px",
+    md: "8px",
+    lg: "12px",
     full: "9999px",
   },
   shadows: {
@@ -108,8 +108,8 @@ export const defaultTheme: Theme = {
     floating: "0 25px 50px rgba(139, 92, 246, 0.25)",
   },
   zIndex: {
-    floating: 9999,
-    badge: 10000,
+    floating: 999999,
+    badge: 1000000,
   },
 };
 
@@ -130,7 +130,21 @@ export const animations = {
     50% { opacity: 0.5; }
   `,
   bounce: keyframes`
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1); }
+    0%, 80%, 100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
+  `,
+  slideInRight: keyframes`
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
   `,
 };
