@@ -12,33 +12,21 @@ export default defineConfig({
       fileName: () => "widget.umd.js",
     },
     rollupOptions: {
-      external: [
-        "react",
-        "react-dom",
-        "react/jsx-runtime",
-        "react/jsx-dev-runtime",
-      ],
+      external: [],
       output: {
-        globals: {},
-        inlineDynamicImports: true,
-        // CRÍTICO: Extrair CSS para arquivo separado
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.endsWith(".css")) {
-            return "widget.css";
-          }
-          return assetInfo.name || "";
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
         },
+        inlineDynamicImports: true,
       },
     },
     cssCodeSplit: false,
-    minify: true,
+    minify: false,
     target: "es2015",
     outDir: "dist",
     emptyOutDir: false,
     copyPublicDir: false,
-  },
-  css: {
-    transformer: "postcss",
   },
   define: {
     "process.env.NODE_ENV": JSON.stringify("production"),

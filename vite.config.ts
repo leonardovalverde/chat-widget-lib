@@ -40,7 +40,4 @@ export default defineConfig({
     emptyOutDir: true,
     copyPublicDir: false,
   },
-  css: {
-    postcss: "./postcss.config.mjs",
-  },
 });

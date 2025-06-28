@@ -2,7 +2,7 @@
   "name": "@leonardo-silva/chat-widget-lib",
   "version": "1.0.0",
   "type": "module",
-  "description": "A modern AI-powered React chat widget with global window configuration",
+  "description": "A modern AI-powered React chat widget with Shadow DOM and CSS-in-JS",
   "main": "dist/chat-widget-lib.umd.js",
   "module": "dist/chat-widget-lib.es.js",
   "types": "dist/index.d.ts",
@@ -12,8 +12,7 @@
       "import": "./dist/chat-widget-lib.es.js",
       "require": "./dist/chat-widget-lib.umd.js"
     },
-    "./widget": "./dist/widget.umd.js",
-    "./widget.css": "./dist/widget.css"
+    "./widget": "./dist/widget.umd.js"
   },
   "files": [
     "dist",
@@ -21,6 +20,8 @@
     "LICENSE"
   ],
   "scripts": {
+    "dev": "vite",
+    "dev:widget": "vite --config vite.dev.config.ts",
     "build": "npm run clean && npm run build:lib && npm run build:widget",
     "build:lib": "vite build",
     "build:widget": "vite build --config vite.widget.config.ts",
@@ -28,7 +29,7 @@
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
     "serve:example": "cd examples && python3 -m http.server 8080",
-    "dev": "vite"
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -45,11 +46,9 @@
     "floating",
     "customer-support",
     "standalone",
-    "global",
-    "window-config",
-    "chatbase",
-    "inline",
-    "customizable"
+    "shadow-dom",
+    "css-in-js",
+    "goober"
   ],
   "author": "Leonardo Silva <seu-email@example.com>",
   "license": "MIT",
@@ -62,15 +61,16 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
-    "tailwindcss": "^4.0.0-alpha.20",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-dts": "^3.6.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "goober": "^2.1.16"
+  }
 }
