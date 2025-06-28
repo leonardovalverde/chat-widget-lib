@@ -60,22 +60,23 @@ export const MessageBubble = styled("div")<{
   flex-shrink: 0;
   animation: ${animations.fadeInUp} 0.3s ease-out;
   font-size: ${(props) => props.theme.typography.messageFontSize};
-  font-weight: ${(props) => props.theme.typography.messageFontWeight};
   font-family: ${(props) => props.theme.typography.fontFamily};
 `;
 
 export const TypingIndicator = styled("div")<{ theme: Theme }>`
-  background: ${(props) => props.theme.colors.botMessageBg};
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 16px;
+  background: ${(props) => props.theme.colors.botMessageBg};
+  color: ${(props) => props.theme.colors.botMessageText};
   border-radius: 20px 20px 20px 6px;
   box-shadow: ${(props) => props.theme.shadows.sm};
   max-width: 80%;
   align-self: flex-start;
-  display: flex;
-  gap: 4px;
-  align-items: center;
   margin-bottom: 16px;
-  opacity: 0.7;
+  flex-shrink: 0;
+  animation: ${animations.fadeInUp} 0.3s ease-out;
 `;
 
 export const TypingDots = styled("div")`
@@ -83,11 +84,11 @@ export const TypingDots = styled("div")`
   gap: 4px;
 `;
 
-export const TypingDot = styled("div")<{ delay?: number }>`
+export const TypingDot = styled("div")<{ theme: Theme; delay?: number }>`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #94a3b8;
+  background-color: ${(props) => props.theme.colors.textSecondary};
   animation: ${animations.bounce} 1.4s infinite ease-in-out both;
   animation-delay: ${(props) => props.delay || 0}s;
 `;

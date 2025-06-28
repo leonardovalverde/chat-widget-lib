@@ -7,6 +7,7 @@ export const InputArea = styled("div")<{ theme: Theme }>`
   border-top: 1px solid ${(props) => props.theme.colors.borderColor};
   background: ${(props) => props.theme.colors.inputAreaBg};
   flex-shrink: 0;
+  box-sizing: border-box;
 `;
 
 export const InputContainer = styled("div")`
@@ -14,6 +15,7 @@ export const InputContainer = styled("div")`
   gap: 8px;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
 `;
 
 export const Input = styled("input")<{
@@ -34,6 +36,7 @@ export const Input = styled("input")<{
   background: ${(props) => props.customBg || props.theme.colors.inputBg};
   color: ${(props) => props.customColor || props.theme.colors.inputText};
   font-family: ${(props) => props.theme.typography.fontFamily};
+  min-width: 0;
 
   &:focus {
     outline: none;
@@ -56,7 +59,7 @@ export const SendButton = styled("button")<{
   theme: Theme;
   gradient?: string;
 }>`
-  padding: 12px;
+  padding: 10px;
   border: none;
   border-radius: 50%;
   color: white;
@@ -64,13 +67,14 @@ export const SendButton = styled("button")<{
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   transition: all 0.15s ease-in-out;
   background: ${(props) =>
     props.gradient ||
     `linear-gradient(135deg, ${props.theme.colors.primary}, ${props.theme.colors.secondary})`};
   flex-shrink: 0;
+  box-sizing: border-box;
 
   &:hover:not(:disabled) {
     transform: scale(1.05);

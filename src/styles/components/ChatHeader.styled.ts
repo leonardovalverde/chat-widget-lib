@@ -1,5 +1,5 @@
-import { styled, css, animations } from "../../styles/styled";
-import type { Theme } from "../../styles/styled";
+import { styled, css, animations } from "../styled";
+import type { Theme } from "../styled";
 
 interface HeaderProps {
   theme: Theme;
@@ -108,8 +108,7 @@ export const Controls = styled("div")`
 export const ControlButton = styled("button")<{
   theme: Theme;
   variant?: "minimize" | "close";
-}>(
-  (props) => `
+}>`
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -120,24 +119,21 @@ export const ControlButton = styled("button")<{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${
+  background-color: ${(props) =>
     props.variant === "minimize"
       ? "#fbbf24"
       : props.variant === "close"
       ? "#ef4444"
-      : `${props.theme.colors.textSecondary}20`
-  };
-  color: ${
+      : `${props.theme.colors.textSecondary}20`};
+  color: ${(props) =>
     props.variant === "minimize" || props.variant === "close"
       ? "white"
-      : props.theme.colors.textSecondary
-  };
+      : props.theme.colors.textSecondary};
 
   &:hover {
     transform: scale(1.1);
   }
-`
-);
+`;
 
 export const UnreadBadge = styled("span")<{ theme: Theme }>`
   position: absolute;
