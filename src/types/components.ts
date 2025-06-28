@@ -25,7 +25,6 @@ export interface WidgetConfig {
   disabled?: boolean;
   openai?: OpenAIConfig;
   enableMockResponses?: boolean;
-  isFloating?: boolean;
   defaultMinimized?: boolean;
   floatingPosition?: FloatingPosition;
 }

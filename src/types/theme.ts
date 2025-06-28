@@ -149,12 +149,6 @@ export interface WidgetProps {
    */
   serviceStatus?: ServiceStatus;
 
-  // === Floating & Minimization ===
-  /**
-   * Whether the chat should float over the page content
-   */
-  isFloating?: boolean;
-
   /**
    * Whether the chat starts minimized
    */
