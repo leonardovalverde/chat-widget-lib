@@ -45,7 +45,6 @@ function App() {
 
 ```tsx
 <ChatWidget
-  isFloating={true}
   floatingPosition="bottom-right"
   defaultMinimized={true}
   placeholder="Need help? Chat with us!"
@@ -90,7 +89,6 @@ function App() {
 | `initialMessages`  | `Message[]`                                                    | `[]`                          | Initial messages to display          |
 | `placeholder`      | `string`                                                       | `"Type your message here..."` | Input placeholder text               |
 | `disabled`         | `boolean`                                                      | `false`                       | Whether the input is disabled        |
-| `isFloating`       | `boolean`                                                      | `false`                       | Enable floating mode                 |
 | `defaultMinimized` | `boolean`                                                      | `false`                       | Start minimized                      |
 | `floatingPosition` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'`              | Position of floating widget          |
 | `onToggleMinimize` | `(isMinimized: boolean) => void`                               | -                             | Callback when minimize state changes |
