@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { withShadowDom } from "../utils/withShadowDom";
-import { createRoot } from "react-dom/client";
 import { ChatHeader } from "./ui/ChatHeader";
 import { ChatMessages } from "./composite/ChatMessages";
 import { ChatInput } from "./ui/ChatInput";
@@ -20,7 +18,7 @@ import {
   ContentArea,
 } from "../styles/components/ChatWidget.styled";
 
-const ChatWidgetComponent: React.FC<WidgetProps> = ({
+const ChatWidget: React.FC<WidgetProps> = ({
   // Style props
   containerStyle,
   headerStyle,
@@ -232,4 +230,4 @@ const ChatWidgetComponent: React.FC<WidgetProps> = ({
   );
 };
 
-export const ChatWidget = withShadowDom(ChatWidgetComponent);
+export { ChatWidget };

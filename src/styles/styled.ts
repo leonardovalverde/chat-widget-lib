@@ -1,3 +1,4 @@
+import "./goober-setup";
 import { styled, css, keyframes, glob, setup } from "goober";
 
 export { css, keyframes, glob, styled };
