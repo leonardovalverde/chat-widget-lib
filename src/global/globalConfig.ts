@@ -12,7 +12,6 @@ export const DEFAULT_GLOBAL_CONFIG: GlobalChatConfig = {
   chatbotId: "default",
   containerId: "chat-widget-container",
   autoInit: true,
-  isFloating: true,
   floatingPosition: "bottom-right",
   defaultMinimized: true,
   placeholder: "How can we help you?",

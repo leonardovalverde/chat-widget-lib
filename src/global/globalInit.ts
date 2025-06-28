@@ -174,7 +174,6 @@ class GlobalChatWidget {
 
     // Renderizar widget inline
     const widgetElement = React.createElement(ChatWidget, {
-      isFloating: false,
       openai: openaiConfig,
       apiKey: config.apiKey || this.config.apiKey,
       branding: {
@@ -232,16 +231,7 @@ class GlobalChatWidget {
     if (!container) {
       container = document.createElement("div");
       container.id = this.config.containerId || "chat-widget-container";
-
-      if (this.config.isFloating) {
-        document.body.appendChild(container);
-      } else {
-        const targetContainer =
-          document.querySelector("[data-chat-widget]") ||
-          document.querySelector("#chat-container") ||
-          document.body;
-        targetContainer.appendChild(container);
-      }
+      document.body.appendChild(container);
     }
 
     return container;
