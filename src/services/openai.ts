@@ -24,12 +24,10 @@ export class OpenAIService {
   }
 
   private getApiKey(providedKey?: string): string {
-    // 1. Usar chave fornecida diretamente
     if (providedKey) {
       return providedKey;
     }
 
-    // 2. Tentar environment variable (React/Vite)
     if (
       typeof import.meta !== "undefined" &&
       import.meta.env?.VITE_OPENAI_API_KEY
@@ -37,13 +35,11 @@ export class OpenAIService {
       return import.meta.env.VITE_OPENAI_API_KEY;
     }
 
-    // 3. Tentar window global (standalone)
     if (typeof window !== "undefined" && (window as any).OPENAI_API_KEY) {
       return (window as any).OPENAI_API_KEY;
     }
 
-    // 4. Fallback para sua chave fixa
-    return "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";
+    return "";
   }
 
   // ... resto do código permanece igual

@@ -2,7 +2,7 @@
   "name": "@leonardo-silva/chat-widget-lib",
   "version": "1.0.0",
   "type": "module",
-  "description": "A modern AI-powered React chat widget with Shadow DOM and CSS-in-JS",
+  "description": "A modern, customizable React chat widget with AI integration, floating mode, and TypeScript support",
   "main": "dist/chat-widget-lib.umd.js",
   "module": "dist/chat-widget-lib.es.js",
   "types": "dist/index.d.ts",
@@ -20,16 +20,12 @@
     "LICENSE"
   ],
   "scripts": {
-    "dev": "vite",
-    "dev:widget": "vite --config vite.dev.config.ts",
     "build": "npm run clean && npm run build:lib && npm run build:widget",
     "build:lib": "vite build",
     "build:widget": "vite build --config vite.widget.config.ts",
-    "prepublishOnly": "npm run clean && npm run build",
-    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
     "clean": "rm -rf dist",
-    "serve:example": "cd examples && python3 -m http.server 8080",
-    "preview": "vite preview"
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -41,16 +37,13 @@
     "widget",
     "ai",
     "openai",
-    "gpt",
     "typescript",
     "floating",
     "customer-support",
-    "standalone",
-    "shadow-dom",
     "css-in-js",
-    "goober"
+    "customizable"
   ],
-  "author": "Leonardo Silva <seu-email@example.com>",
+  "author": "Leonardo Silva",
   "license": "MIT",
   "homepage": "https://github.com/leonardo-silva/chat-widget-lib#readme",
   "bugs": {
@@ -64,13 +57,14 @@
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-dts": "^3.6.0"
   },
   "dependencies": {
     "goober": "^2.1.16"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
