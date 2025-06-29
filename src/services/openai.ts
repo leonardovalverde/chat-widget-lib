@@ -2,18 +2,22 @@ export interface OpenAIConfig {
   maxTokens?: number;
   temperature?: number;
   systemPrompt?: string;
-  apiKey?: string; // ADICIONADO
+  apiKey?: string;
+}
+
+export interface ChatMessage {
+  role: "user" | "bot" | "assistant" | "system";
+  content: string;
 }
 
 export class OpenAIService {
-  private apiKey: string;
-  private model: string;
-  private maxTokens: number;
-  private temperature: number;
-  private systemPrompt: string;
+  private readonly apiKey: string;
+  private readonly model: string;
+  private readonly maxTokens: number;
+  private readonly temperature: number;
+  private readonly systemPrompt: string;
 
   constructor(config: OpenAIConfig = {}) {
-    // CORRIGIDO: Prioridade para apiKey fornecida no config
     this.apiKey = this.getApiKey(config.apiKey);
     this.model = "gpt-4o-mini";
     this.maxTokens = config.maxTokens ?? 500;
@@ -30,7 +34,7 @@ export class OpenAIService {
 
     if (
       typeof import.meta !== "undefined" &&
-      import.meta.env?.VITE_OPENAI_API_KEY
+      !!import.meta.env?.VITE_OPENAI_API_KEY
     ) {
       return import.meta.env.VITE_OPENAI_API_KEY;
     }
@@ -42,7 +46,6 @@ export class OpenAIService {
     return "";
   }
 
-  // ... resto do código permanece igual
   async sendMessage(
     messages: ChatMessage[],
     userMessage: string
