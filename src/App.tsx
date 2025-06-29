@@ -24,7 +24,6 @@ const App: React.FC = () => {
     default: {
       botName: "Leo AI",
       subtitle: "Development Mode",
-      logo: "🤖",
       colors: {
         primary: "#3b82f6",
         secondary: "#8b5cf6",
@@ -280,6 +279,8 @@ const App: React.FC = () => {
 
       {/* Widget Floating - RENDERED OUTSIDE ANY CONTAINER */}
       <ChatWidget
+        persistMessages
+        maxStoredMessages={100}
         floatingPosition="bottom-right"
         defaultMinimized={true}
         branding={customizationExamples[currentTheme]}
@@ -289,7 +290,6 @@ const App: React.FC = () => {
         onAIResponse={(response, userMsg) =>
           console.log("Floating AI:", response)
         }
-        apiKey="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"
         openai={{
           systemPrompt: getSystemPrompt(),
           maxTokens: 300,
