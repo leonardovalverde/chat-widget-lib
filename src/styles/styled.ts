@@ -1,16 +1,16 @@
 import "./goober-setup";
-import { styled, css, keyframes, glob, setup } from "goober";
+import { styled, css, keyframes, glob } from "goober";
 
 export { css, keyframes, glob, styled };
 
-// Tema base da aplicação
+// Theme Interface and Default Theme
 export interface Theme {
   colors: {
     primary: string;
     secondary: string;
     containerBg: string;
     headerBg: string;
-    messagesBg: string;
+    messagesBg?: string;
     inputAreaBg: string;
     headerText: string;
     userMessageBg: string;
@@ -23,7 +23,6 @@ export interface Theme {
     borderColor: string;
     textColor: string;
     textSecondary: string;
-    contentBg: string;
   };
   typography: {
     fontFamily: string;
@@ -77,7 +76,6 @@ export const defaultTheme: Theme = {
     borderColor: "#e2e8f0",
     textColor: "#374151",
     textSecondary: "#6b7280",
-    contentBg: "#ffffff",
   },
   typography: {
     fontFamily:
@@ -113,7 +111,8 @@ export const defaultTheme: Theme = {
   },
 };
 
-// Animações globais
+// Global Animations
+
 export const animations = {
   fadeInUp: keyframes`
     from {

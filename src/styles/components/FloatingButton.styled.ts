@@ -23,11 +23,11 @@ export const FloatingButtonContainer = styled("button")<FloatingButtonProps>`
   box-shadow: ${(props) => props.theme.shadows.floating};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: ${(props) =>
-    props.gradient ||
+    props.gradient ??
     `linear-gradient(135deg, ${props.theme.colors.primary}, ${props.theme.colors.secondary})`};
 
   ${(props) => {
-    const position = props.position || "bottom-right";
+    const position = props.position ?? "bottom-right";
 
     if (position === "bottom-right") {
       return `

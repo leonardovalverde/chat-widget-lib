@@ -27,14 +27,14 @@ export const Input = styled("input")<{
   flex: 1 1 0%;
   padding: 12px 16px;
   border: 1px solid
-    ${(props) => props.customBorder || props.theme.colors.borderColor};
+    ${(props) => props.customBorder ?? props.theme.colors.borderColor};
   border-radius: ${(props) => props.theme.borderRadius.full};
   font-size: ${(props) => props.theme.typography.messageFontSize};
   line-height: 1.25;
   box-sizing: border-box;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  background: ${(props) => props.customBg || props.theme.colors.inputBg};
-  color: ${(props) => props.customColor || props.theme.colors.inputText};
+  background: ${(props) => props.customBg ?? props.theme.colors.inputBg};
+  color: ${(props) => props.customColor ?? props.theme.colors.inputText};
   font-family: ${(props) => props.theme.typography.fontFamily};
   min-width: 0;
 
@@ -71,7 +71,7 @@ export const SendButton = styled("button")<{
   height: 40px;
   transition: all 0.15s ease-in-out;
   background: ${(props) =>
-    props.gradient ||
+    props.gradient ??
     `linear-gradient(135deg, ${props.theme.colors.primary}, ${props.theme.colors.secondary})`};
   flex-shrink: 0;
   box-sizing: border-box;

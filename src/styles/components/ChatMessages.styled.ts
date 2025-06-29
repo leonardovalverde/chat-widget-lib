@@ -39,12 +39,12 @@ export const MessageBubble = styled("div")<{
 }>`
   background: ${(props) =>
     props.isUser
-      ? props.customBg || props.theme.colors.userMessageBg
-      : props.customBg || props.theme.colors.botMessageBg};
+      ? props.customBg ?? props.theme.colors.userMessageBg
+      : props.customBg ?? props.theme.colors.botMessageBg};
   color: ${(props) =>
     props.isUser
-      ? props.customColor || props.theme.colors.userMessageText
-      : props.customColor || props.theme.colors.botMessageText};
+      ? props.customColor ?? props.theme.colors.userMessageText
+      : props.customColor ?? props.theme.colors.botMessageText};
   padding: 12px 16px;
   border-radius: ${(props) =>
     props.isUser ? "20px 20px 6px 20px" : "20px 20px 20px 6px"};
@@ -90,5 +90,5 @@ export const TypingDot = styled("div")<{ theme: Theme; delay?: number }>`
   border-radius: 50%;
   background-color: ${(props) => props.theme.colors.textSecondary};
   animation: ${animations.bounce} 1.4s infinite ease-in-out both;
-  animation-delay: ${(props) => props.delay || 0}s;
+  animation-delay: ${(props) => props.delay ?? 0}s;
 `;

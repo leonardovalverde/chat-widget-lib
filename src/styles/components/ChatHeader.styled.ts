@@ -1,6 +1,23 @@
 import { styled, css, animations } from "../styled";
 import type { Theme } from "../styled";
 
+const statusBgColor = (props: {
+  isOnline?: boolean;
+  isMaintenance?: boolean;
+}) => {
+  if (props.isMaintenance) return "#f59e0b";
+  return props.isOnline ? "#10b981" : "#ef4444";
+};
+
+const controlButtonBgColor = (props: {
+  variant?: "minimize" | "close";
+  theme: Theme;
+}) => {
+  if (props.variant === "minimize") return "#fbbf24";
+  if (props.variant === "close") return "#ef4444";
+  return `${props.theme.colors.textSecondary}20`;
+};
+
 interface HeaderProps {
   theme: Theme;
   isMinimized?: boolean;
@@ -15,6 +32,7 @@ export const HeaderContent = styled("div")`
 
 export const HeaderContainer = styled("div")<HeaderProps>`
   border-bottom: 1px solid ${(props) => props.theme.colors.borderColor};
+  position: relative;
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -42,7 +60,7 @@ export const Avatar = styled("div")<{ theme: Theme; gradient?: string }>`
   height: 40px;
   border-radius: 50%;
   background: ${(props) =>
-    props.gradient ||
+    props.gradient ??
     `linear-gradient(135deg, ${props.theme.colors.primary}, ${props.theme.colors.secondary})`};
   display: flex;
   align-items: center;
@@ -90,7 +108,10 @@ export const StatusDot = styled("div")<{
   height: 8px;
   border-radius: 50%;
   background-color: ${(props) =>
-    props.isMaintenance ? "#f59e0b" : props.isOnline ? "#10b981" : "#ef4444"};
+    statusBgColor({
+      isOnline: props.isOnline,
+      isMaintenance: props.isMaintenance,
+    })};
   animation: ${(props) =>
     props.isOnline && !props.isMaintenance
       ? css`
@@ -103,6 +124,7 @@ export const Controls = styled("div")`
   display: flex;
   gap: 8px;
   margin-left: auto;
+  align-items: center;
 `;
 
 export const ControlButton = styled("button")<{
@@ -120,11 +142,10 @@ export const ControlButton = styled("button")<{
   align-items: center;
   justify-content: center;
   background-color: ${(props) =>
-    props.variant === "minimize"
-      ? "#fbbf24"
-      : props.variant === "close"
-      ? "#ef4444"
-      : `${props.theme.colors.textSecondary}20`};
+    controlButtonBgColor({
+      variant: props.variant,
+      theme: props.theme,
+    })};
   color: ${(props) =>
     props.variant === "minimize" || props.variant === "close"
       ? "white"
@@ -132,6 +153,72 @@ export const ControlButton = styled("button")<{
 
   &:hover {
     transform: scale(1.1);
+  }
+`;
+
+// Novos componentes para o menu
+export const MenuContainer = styled("div")`
+  position: relative;
+`;
+
+export const MenuButton = styled("button")<{ theme: Theme }>`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.theme.colors.textSecondary}20;
+  color: ${(props) => props.theme.colors.textSecondary};
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: ${(props) => props.theme.colors.textSecondary}30;
+  }
+`;
+
+export const MenuDropdown = styled("div")<{ theme: Theme }>`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: ${(props) => props.theme.colors.containerBg};
+  border: 1px solid ${(props) => props.theme.colors.borderColor};
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  box-shadow: ${(props) => props.theme.shadows.lg};
+  z-index: ${(props) => props.theme.zIndex.floating + 1};
+  min-width: 160px;
+  margin-top: 4px;
+`;
+
+export const MenuItem = styled("button")<{ theme?: Theme }>`
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: ${(props) => props.theme?.colors.textColor ?? "#374151"};
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.theme?.colors.borderColor ?? "#f3f4f6"};
+  }
+
+  &:first-child {
+    border-radius: ${(props) => props.theme?.borderRadius.md ?? "6px"}
+      ${(props) => props.theme?.borderRadius.md ?? "6px"} 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 ${(props) => props.theme?.borderRadius.md ?? "6px"}
+      ${(props) => props.theme?.borderRadius.md ?? "6px"};
   }
 `;
 

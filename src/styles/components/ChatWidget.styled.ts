@@ -1,4 +1,4 @@
-import { styled, css } from "../styled";
+import { styled } from "../styled";
 import type { Theme } from "../styled";
 
 interface WidgetProps {
