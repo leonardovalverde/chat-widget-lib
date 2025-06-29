@@ -1,156 +1,256 @@
 # Chat Widget Library
 
-A modern, fully-featured React chat widget component with AI-like responses, floating mode, and extensive customization options.
+🚀 **A modern, customizable React chat widget with AI integration, floating mode, and TypeScript support**
 
-## Features
+[![npm version](https://badge.fury.io/js/@leonardovalverde%2Fchat-widget-lib.svg)](https://www.npmjs.com/package/@leonardovalverde/chat-widget-lib)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- 🤖 **Interactive Chat** - Complete chat functionality with mock AI responses
-- 🎈 **Floating Mode** - Position the chat widget anywhere on the screen
-- 🎨 **Fully Customizable** - Style every element with CSS classes or inline styles
-- 📱 **Responsive Design** - Works beautifully on all screen sizes
-- ⚡ **TypeScript Support** - Complete type definitions included
-- 🔔 **Notifications** - Unread message counter when minimized
-- ✨ **Smooth Animations** - Elegant transitions and hover effects
+## ✨ Features
 
-## Installation
+- 🎨 **Fully Customizable** - Colors, themes, and branding
+- 🤖 **AI Powered** - OpenAI integration with streaming responses
+- 📱 **Responsive** - Works on desktop and mobile
+- 🎈 **Floating Mode** - Position anywhere on screen
+- 📦 **TypeScript** - Full type safety
+- 🎯 **Standalone** - Use without React (script tag)
+- ⚡ **Lightweight** - Minimal dependencies
+
+## 🚀 Quick Start
+
+### React Installation
 
 ```bash
-npm install chat-widget-lib
+npm install @leonardovalverde/chat-widget-lib
 ```
 
-## Quick Start
-
 ```tsx
-import { ChatWidget } from "chat-widget-lib";
+import { ChatWidget } from "@leonardovalverde/chat-widget-lib";
 
 function App() {
   return (
     <ChatWidget
-      onSendMessage={(message) => console.log("User sent:", message)}
-      placeholder="How can we help you?"
+      floatingPosition="bottom-right"
+      branding={{
+        botName: "Support Bot",
+        subtitle: "How can I help?",
+        logo: "🤖",
+      }}
+      apiKey="your-openai-api-key"
+      onSendMessage={(message) => console.log("User:", message)}
     />
   );
 }
 ```
 
-## Examples
+### Standalone Usage (No React)
 
-### Basic Usage
+**Option 1: jsDelivr CDN (Recommended)**
 
-```tsx
-<ChatWidget onSendMessage={(message) => handleMessage(message)} />
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>My Website</h1>
+
+    <!-- Include via jsDelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@latest/dist/widget.umd.js"></script>
+
+    <script>
+      window.ChatWidgetConfig = {
+        apiKey: "your-openai-api-key",
+        branding: {
+          botName: "My Bot",
+          colors: { primary: "#3b82f6" },
+        },
+      };
+
+      window.ChatWidget.init();
+    </script>
+  </body>
+</html>
 ```
 
-### Floating Chat Widget
+**Option 2: unpkg CDN**
 
-```tsx
-<ChatWidget
-  floatingPosition="bottom-right"
-  defaultMinimized={true}
-  placeholder="Need help? Chat with us!"
-/>
+```html
+<script src="https://unpkg.com/@leonardovalverde/chat-widget-lib@latest/dist/widget.umd.js"></script>
 ```
 
-### Custom Styling
+**Option 3: Specific Version (Recommended for production)**
 
-```tsx
-<ChatWidget
-  containerClassName="!bg-blue-50 !border-blue-300"
-  headerClassName="!bg-blue-600 !text-white"
-  messageClassName="!bg-white !border-blue-200"
-  userMessageClassName="!bg-blue-100"
-  placeholder="Type your message..."
-/>
+```html
+<!-- Replace 1.0.0 with your desired version -->
+<script src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@1.0.0/dist/widget.umd.js"></script>
 ```
 
-### With Custom Messages
+## 📖 API Documentation
+
+### React Component Props
 
 ```tsx
-<ChatWidget
-  initialMessages={[
-    {
-      id: "1",
-      content: "Welcome! How can I assist you today?",
-      sender: "bot",
-      timestamp: new Date(),
-    },
-  ]}
-  onSendMessage={handleMessage}
-/>
-```
+interface ChatWidgetProps {
+  // Widget behavior
+  floatingPosition?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
+  defaultMinimized?: boolean;
 
-## API Reference
+  // Branding & customization
+  branding?: {
+    botName?: string;
+    subtitle?: string;
+    logo?: string;
+    colors?: {
+      primary?: string;
+      secondary?: string;
+      headerBg?: string;
+      messagesBg?: string;
+      userMessageBg?: string;
+      botMessageBg?: string;
+      // ... more color options
+    };
+  };
 
-### Props
+  // Service status
+  serviceStatus?: {
+    isOnline?: boolean;
+    isMaintenanceMode?: boolean;
+    maintenanceMessage?: string;
+  };
 
-| Prop               | Type                                                           | Default                       | Description                          |
-| ------------------ | -------------------------------------------------------------- | ----------------------------- | ------------------------------------ |
-| `onSendMessage`    | `(message: string) => void`                                    | -                             | Callback when user sends a message   |
-| `initialMessages`  | `Message[]`                                                    | `[]`                          | Initial messages to display          |
-| `placeholder`      | `string`                                                       | `"Type your message here..."` | Input placeholder text               |
-| `disabled`         | `boolean`                                                      | `false`                       | Whether the input is disabled        |
-| `defaultMinimized` | `boolean`                                                      | `false`                       | Start minimized                      |
-| `floatingPosition` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'`              | Position of floating widget          |
-| `onToggleMinimize` | `(isMinimized: boolean) => void`                               | -                             | Callback when minimize state changes |
+  // Callbacks
+  onSendMessage?: (message: string) => void;
+  onAIResponse?: (response: string, userMessage: string) => void;
 
-### Styling Props
-
-| Prop                   | Type            | Description                      |
-| ---------------------- | --------------- | -------------------------------- |
-| `containerStyle`       | `CSSProperties` | Inline styles for main container |
-| `headerStyle`          | `CSSProperties` | Inline styles for header         |
-| `contentStyle`         | `CSSProperties` | Inline styles for content area   |
-| `messageStyle`         | `CSSProperties` | Inline styles for bot messages   |
-| `userMessageStyle`     | `CSSProperties` | Inline styles for user messages  |
-| `inputStyle`           | `CSSProperties` | Inline styles for input field    |
-| `containerClassName`   | `string`        | CSS classes for main container   |
-| `headerClassName`      | `string`        | CSS classes for header           |
-| `contentClassName`     | `string`        | CSS classes for content area     |
-| `messageClassName`     | `string`        | CSS classes for bot messages     |
-| `userMessageClassName` | `string`        | CSS classes for user messages    |
-| `inputClassName`       | `string`        | CSS classes for input field      |
-
-### Types
-
-```tsx
-interface Message {
-  id: string;
-  content: string;
-  sender: "user" | "bot";
-  timestamp: Date;
+  // OpenAI configuration
+  openai?: {
+    model?: string;
+    systemPrompt?: string;
+    maxTokens?: number;
+    temperature?: number;
+    apiKey?: string;
+  };
 }
 ```
 
-## Customization
+### Standalone Configuration
 
-The chat widget is built with Tailwind CSS classes but can be customized with any CSS framework:
+```javascript
+window.ChatWidgetConfig = {
+  // Same props as React component
+  openia: {
+  apiKey: "your-openai-api-key",
+  }
+  floatingPosition: "bottom-right",
+  branding: {
+    botName: "Support Bot",
+    colors: {
+      primary: "#3b82f6",
+    },
+  },
+};
 
-### Using Tailwind CSS
+// Initialize the widget
+window.ChatWidget.init();
+```
+
+## 🎨 Customization Examples
+
+### Dark Theme
 
 ```tsx
 <ChatWidget
-  containerClassName="!bg-gradient-to-r !from-purple-400 !to-pink-400"
-  headerClassName="!bg-black !text-white"
-  inputClassName="!border-purple-300 focus:!ring-purple-500"
+  branding={{
+    botName: "Dark Bot",
+    colors: {
+      primary: "#22c55e",
+      headerBg: "#1a1a1a",
+      messagesBg: "#0a0a0a",
+      botMessageBg: "#262626",
+      headerText: "#22c55e",
+      botMessageText: "#22c55e",
+    },
+  }}
 />
 ```
 
-### Using Custom CSS
+### Brand Colors
 
 ```tsx
 <ChatWidget
-  containerStyle={{
-    backgroundColor: "#f0f9ff",
-    borderColor: "#0ea5e9",
-    borderRadius: "16px",
-  }}
-  headerStyle={{
-    backgroundColor: "#0ea5e9",
-    color: "white",
+  branding={{
+    botName: "Brand Bot",
+    logo: "🎯",
+    colors: {
+      primary: "#10b981",
+      secondary: "#059669",
+      headerBg: "linear-gradient(135deg, #ecfdf5, #d1fae5)",
+      userMessageBg: "linear-gradient(135deg, #10b981, #059669)",
+    },
   }}
 />
 ```
 
-## License
+## 📦 What's Included
 
-MIT
+When you install via NPM or CDN, you get:
+
+- **React Component** - `dist/chat-widget-lib.es.js` (ES Module)
+- **UMD Bundle** - `dist/chat-widget-lib.umd.js` (React component)
+- **Standalone Widget** - `dist/widget.umd.js` (No React required)
+- **TypeScript Types** - `dist/index.d.ts`
+
+## 🌐 CDN Information
+
+### jsDelivr (Recommended)
+
+- ✅ **Fast global CDN**
+- ✅ **Auto-minification**
+- ✅ **Version management**
+- ✅ **NPM sync within minutes**
+
+```html
+<!-- Latest version -->
+<script src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@latest/dist/widget.umd.js"></script>
+
+<!-- Specific version (production) -->
+<script src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@1.0.0/dist/widget.umd.js"></script>
+```
+
+### unpkg
+
+```html
+<script src="https://unpkg.com/@leonardovalverde/chat-widget-lib@latest/dist/widget.umd.js"></script>
+```
+
+## 🔧 Requirements
+
+- **For React usage**: React 18+
+- **For standalone**: Modern browser with ES2015+ support
+- **For AI features**: OpenAI API key
+
+## 📊 Bundle Sizes
+
+- **React Component**: ~45KB (gzipped)
+- **Standalone Widget**: ~150KB (includes React, gzipped)
+
+## 🎮 Live Demo
+
+- 🌐 **[Live Demo](https://leonardo-silva.github.io/chat-widget-lib)**
+- 📚 **[Documentation](https://github.com/leonardo-silva/chat-widget-lib)**
+- 🎨 **[Customization Examples](https://leonardo-silva.github.io/chat-widget-lib)**
+
+## 📄 License
+
+MIT © Leonardo Silva
+
+## 🐛 Support
+
+- 📝 **[GitHub Issues](https://github.com/leonardo-silva/chat-widget-lib/issues)**
+- 📧 **[NPM Package](https://www.npmjs.com/package/@leonardovalverde/chat-widget-lib)**
+
+---
+
+### Quick Links
+
+- 📦 **NPM**: `npm install @leonardovalverde/chat-widget-lib`
+- 🌐 **CDN**: `https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@latest/dist/widget.umd.js`
+- 📖 **Docs**: [GitHub Repository](https://github.com/leonardo-silva/chat-widget-lib)

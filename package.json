@@ -1,5 +1,5 @@
 {
-  "name": "@leonardo-silva/chat-widget-lib",
+  "name": "@leonardovalverde/chat-widget-lib",
   "version": "1.0.0",
   "type": "module",
   "description": "A modern, customizable React chat widget with AI integration, floating mode, and TypeScript support",
@@ -20,12 +20,16 @@
     "LICENSE"
   ],
   "scripts": {
+    "dev": "vite",
     "build": "npm run clean && npm run build:lib && npm run build:widget",
     "build:lib": "vite build",
     "build:widget": "vite build --config vite.widget.config.ts",
+    "preview": "vite preview",
     "prepublishOnly": "npm run build",
     "clean": "rm -rf dist",
-    "type-check": "tsc --noEmit"
+    "type-check": "npm run type-check:clean && tsc --noEmit",
+    "type-check:clean": "rm -rf dist && rm -rf *.tsbuildinfo",
+    "test:pack": "npm pack"
   },
   "repository": {
     "type": "git",
@@ -41,7 +45,8 @@
     "floating",
     "customer-support",
     "css-in-js",
-    "customizable"
+    "customizable",
+    "standalone"
   ],
   "author": "Leonardo Silva",
   "license": "MIT",
@@ -54,6 +59,7 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
+    "@types/node": "^24.0.7",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",

@@ -1,26 +1,36 @@
 # Development files
+
 src/
 examples/
-vite.dev.config.ts
 vite.config.ts
 vite.widget.config.ts
-tsconfig.*.json
+tsconfig._.json
 eslint.config.js
-.env*
+.env_
 .vscode/
 .idea/
+index.html
+public/
 
 # Build artifacts
-node_modules/
-*.log
-*.tsbuildinfo
 
-# Documentation (keep README.md)
-docs/
+node_modules/
+_.log
+_.tsbuildinfo
 
 # Git
+
 .git/
 .gitignore
 .gitattributes
 
-# Only include dist, README.md, LICENSE, package.json
+# GitHub
+
+.github/
+
+# Only include essentials for NPM
+
+!dist/
+!README.md
+!LICENSE
+!package.json
