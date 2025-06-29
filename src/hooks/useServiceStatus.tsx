@@ -1,4 +1,3 @@
-/* filepath: src/hooks/useServiceStatus.tsx */
 import { useMemo } from "react";
 import { type ServiceStatus } from "../types/theme";
 

@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import { type BrandingConfig } from "../types/branding";
+import { LeoAIIcon } from "../components/icons/DefaultIcons";
 
 const DEFAULT_BRANDING: Required<BrandingConfig> = {
   botName: "Assistant",
   subtitle: "Online",
-  logo: "🤖",
+  logo: <LeoAIIcon />,
   colors: {
     primary: "#3b82f6",
     secondary: "#8b5cf6",
@@ -23,7 +24,6 @@ const DEFAULT_BRANDING: Required<BrandingConfig> = {
     borderColor: "#e2e8f0",
     textColor: "#374151",
     textSecondary: "#6b7280",
-    contentBg: "#ffffff",
   },
   typography: {
     fontFamily:
@@ -49,21 +49,16 @@ export const useBranding = (customBranding?: BrandingConfig) => {
     };
 
     const merged = {
-      botName: customBranding?.botName || DEFAULT_BRANDING.botName,
-      subtitle: customBranding?.subtitle || DEFAULT_BRANDING.subtitle,
+      botName: customBranding?.botName ?? DEFAULT_BRANDING.botName,
+      subtitle: customBranding?.subtitle ?? DEFAULT_BRANDING.subtitle,
       logo: renderLogo(customBranding?.logo),
       colors: {
         ...DEFAULT_BRANDING.colors,
         ...customBranding?.colors,
 
         messagesBg:
-          customBranding?.colors?.messagesBg ||
-          customBranding?.colors?.contentBg ||
+          customBranding?.colors?.messagesBg ??
           DEFAULT_BRANDING.colors.messagesBg,
-        contentBg:
-          customBranding?.colors?.contentBg ||
-          customBranding?.colors?.messagesBg ||
-          DEFAULT_BRANDING.colors.contentBg,
       },
       typography: {
         ...DEFAULT_BRANDING.typography,

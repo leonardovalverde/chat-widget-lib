@@ -36,11 +36,9 @@ export const useChatLogic = ({
   const [isTyping, setIsTyping] = useState(false);
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
-
     const messageContent = inputValue.trim();
+    if (!messageContent) return;
 
-    // Add user message first
     addUserMessage(messageContent);
     setInputValue("");
 
@@ -50,7 +48,6 @@ export const useChatLogic = ({
     try {
       let botResponse: string;
 
-      // Try OpenAI first if configured
       if (openai && isOpenAIConfigured) {
         try {
           botResponse = await sendOpenAIMessage(messageContent, []);
@@ -68,23 +65,16 @@ export const useChatLogic = ({
             messageContent
           );
 
-          // Fallback to mock response if enabled
-          if (enableMockResponses) {
-            botResponse = generateMockResponse(messageContent);
-          } else {
-            botResponse =
-              "I'm sorry, I'm having trouble connecting to my AI service right now. Please try again later.";
-          }
+          botResponse = enableMockResponses
+            ? generateMockResponse(messageContent)
+            : "I'm sorry, I'm having trouble connecting to my AI service right now. Please try again later.";
         }
+      } else if (enableMockResponses) {
+        await simulateThinkingDelay();
+        botResponse = generateMockResponse(messageContent);
       } else {
-        // Use mock responses as fallback
-        if (enableMockResponses) {
-          await simulateThinkingDelay();
-          botResponse = generateMockResponse(messageContent);
-        } else {
-          botResponse =
-            "AI responses are not configured. Please provide an OpenAI API key.";
-        }
+        botResponse =
+          "AI responses are not configured. Please provide an OpenAI API key.";
       }
 
       addBotMessage(botResponse);

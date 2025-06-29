@@ -9,19 +9,21 @@ import { type Message } from "../types/common";
 interface UseOpenAIProps {
   config?: OpenAIConfig;
   enabled?: boolean;
-  onError?: (error: Error) => void;
-  apiKey?: string; // ADICIONADO
+  onError?: (error: Error, userMessage: string) => void;
+  apiKey?: string;
 }
-
+/**
+ * Custom hook to interact with OpenAI's chat API.
+ * It provides methods to send messages and manage the OpenAI service configuration.
+ */
 export const useOpenAI = ({
   config,
   enabled = false,
   onError,
-  apiKey, // ADICIONADO
+  apiKey,
 }: UseOpenAIProps = {}) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  // CORRIGIDO: Criar serviço com apiKey se fornecida
   const [service, setService] = useState<OpenAIService | null>(() => {
     if (config || apiKey) {
       return new OpenAIService({ ...config, apiKey });
@@ -68,7 +70,7 @@ export const useOpenAI = ({
         const apiError =
           error instanceof Error ? error : new Error("Unknown OpenAI error");
         if (onError) {
-          onError(apiError);
+          onError(apiError, userMessage);
         }
         throw apiError;
       } finally {
