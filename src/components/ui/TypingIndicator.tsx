@@ -17,7 +17,6 @@ export const TypingIndicatorComponent: React.FC<TypingIndicatorProps> = ({
 }) => {
   const { colors, typography } = useBranding(branding);
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     colors: {
@@ -32,7 +31,6 @@ export const TypingIndicatorComponent: React.FC<TypingIndicatorProps> = ({
 
   return (
     <TypingIndicator theme={theme}>
-      <span>typing</span>
       <TypingDots>
         <TypingDot theme={theme} delay={0} />
         <TypingDot theme={theme} delay={0.16} />
