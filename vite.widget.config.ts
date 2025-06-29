@@ -14,15 +14,12 @@ export default defineConfig({
     rollupOptions: {
       external: [],
       output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
+        globals: {},
         inlineDynamicImports: true,
       },
     },
     cssCodeSplit: false,
-    minify: false,
+    minify: true,
     target: "es2015",
     outDir: "dist",
     emptyOutDir: false,
@@ -30,8 +27,5 @@ export default defineConfig({
   },
   define: {
     "process.env.NODE_ENV": JSON.stringify("production"),
-    "import.meta.env.VITE_OPENAI_API_KEY": JSON.stringify(
-      process.env.VITE_OPENAI_API_KEY || ""
-    ),
   },
 });

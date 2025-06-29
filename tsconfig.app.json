@@ -1,26 +1,29 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "declarationDir": "dist",
-    "target": "ES2022",
+    "target": "ES2020",
     "useDefineForClassFields": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "composite": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": false,
+    "isolatedModules": true,
     "moduleDetection": "force",
+    "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "types": ["vite/client"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*", "src/**/*.spec.*", "node_modules"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/types/vite-env.d.ts"],
+  "exclude": [
+    "src/**/*.test.*",
+    "src/**/*.spec.*",
+    "dist/**/*",
+    "node_modules/**/*",
+    "**/*.d.ts"
+  ]
 }

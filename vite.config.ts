@@ -8,11 +8,11 @@ export default defineConfig({
     react(),
     dts({
       include: ["src/**/*.ts", "src/**/*.tsx"],
-      exclude: ["**/*.test.*", "**/*.spec.*"],
+      exclude: ["**/*.test.*", "**/*.spec.*", "src/App.tsx", "src/main.tsx"],
       insertTypesEntry: true,
       outDir: "dist",
       entryRoot: "src",
-      tsconfigPath: "./tsconfig.app.json",
+      tsconfigPath: "./tsconfig.dts.json",
     }),
   ],
   build: {
@@ -39,5 +39,9 @@ export default defineConfig({
     outDir: "dist",
     emptyOutDir: true,
     copyPublicDir: false,
+  },
+  server: {
+    port: 5174,
+    open: true,
   },
 });
