@@ -22,7 +22,6 @@ export const MaintenanceBanner: React.FC<MaintenanceBannerProps> = ({
 }) => {
   const { typography } = useBranding(branding);
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     typography: {

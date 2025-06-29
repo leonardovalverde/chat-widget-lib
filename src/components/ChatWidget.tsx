@@ -38,7 +38,6 @@ const ChatWidget: React.FC<WidgetProps> = ({
 
   // Content props
   children,
-  initialMessages = [],
   placeholder = "Type your message here...",
   disabled = false,
 
@@ -62,13 +61,28 @@ const ChatWidget: React.FC<WidgetProps> = ({
   // Customization
   icons,
   branding,
-  apiKey,
+
+  // storage messages
+  persistMessages = true,
+  chatbotId = "default",
+  maxStoredMessages = 50,
+  onHistoryCleared,
+  onHistoryExported,
 }) => {
   const [inputValue, setInputValue] = useState("");
 
-  // Custom hooks for state management
-  const { messages, addUserMessage, addBotMessage } =
-    useMessageState(initialMessages);
+  const {
+    messages,
+    addUserMessage,
+    addBotMessage,
+    clearHistory,
+    exportHistory,
+    hasHistory,
+  } = useMessageState([], {
+    persistMessages,
+    chatbotId,
+    maxStoredMessages,
+  });
   const { isMinimized, toggleMinimize } = useMinimizeState(
     defaultMinimized,
     onToggleMinimize
@@ -78,7 +92,6 @@ const ChatWidget: React.FC<WidgetProps> = ({
     isMinimized
   );
 
-  // Branding, service status and AI
   const brandingConfig = useBranding(branding);
   const status = useServiceStatus(serviceStatus);
   const {
@@ -89,10 +102,9 @@ const ChatWidget: React.FC<WidgetProps> = ({
     config: openai,
     enabled: !!openai,
     onError: onAIError,
-    apiKey,
+    apiKey: openai?.apiKey,
   });
 
-  // Chat logic
   const { isTyping, handleSendMessage } = useChatLogic({
     inputValue,
     setInputValue,
@@ -107,7 +119,6 @@ const ChatWidget: React.FC<WidgetProps> = ({
     onAIError,
   });
 
-  // Event handlers
   const handleToggleMinimize = () => {
     const newState = toggleMinimize();
     if (!newState) {
@@ -126,18 +137,15 @@ const ChatWidget: React.FC<WidgetProps> = ({
     setInputValue(e.target.value);
   };
 
-  // Determine if input should be disabled
   const isInputDisabled =
     disabled || status.isMaintenanceMode || !status.isOnline;
 
-  // Get dynamic placeholder
   const getPlaceholder = () => {
     if (status.isMaintenanceMode) return "Service under maintenance...";
     if (!status.isOnline) return "Service currently offline...";
     return placeholder;
   };
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     colors: {
@@ -152,7 +160,28 @@ const ChatWidget: React.FC<WidgetProps> = ({
 
   const isCurrentlyTyping = isTyping || isOpenAILoading;
 
-  // Se for floating e estiver minimizado, mostrar apenas o botão flutuante
+  const handleClearHistory = () => {
+    clearHistory();
+    onHistoryCleared?.();
+  };
+
+  const handleExportHistory = () => {
+    const data = exportHistory();
+    onHistoryExported?.(data);
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `chat-history-${chatbotId}-${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   if (isMinimized) {
     const floatingButton = (
       <FloatingButton
@@ -184,6 +213,9 @@ const ChatWidget: React.FC<WidgetProps> = ({
         icons={icons}
         branding={branding}
         serviceStatus={serviceStatus}
+        hasHistory={hasHistory}
+        onClearHistory={handleClearHistory}
+        onExportHistory={handleExportHistory}
       />
 
       {!isMinimized && (

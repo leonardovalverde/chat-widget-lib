@@ -1,8 +1,9 @@
 import React from "react";
 import { useBranding } from "../../hooks/useBranding";
-import { type BrandingConfig, type Message } from "../../types/theme";
+import { type Message } from "../../types/theme";
 import { defaultTheme } from "../../styles/styled";
 import { MessageBubble } from "../../styles/components/ChatMessages.styled";
+import { BrandingConfig } from "../../types/branding";
 
 interface ChatMessageProps {
   message: Message;
@@ -24,7 +25,6 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   const { colors, typography } = useBranding(branding);
   const isUser = message.sender === "user";
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     colors: {

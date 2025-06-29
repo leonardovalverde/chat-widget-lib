@@ -93,11 +93,14 @@ export const BotIcon: React.FC<{ className?: string }> = ({ className }) => (
 /**
  * Leo's AI default brand
  */
-export const LeoAIIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const LeoAIIcon: React.FC<{ className?: string; size?: number }> = ({
+  className,
+  size = 32,
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="200"
-    height="200"
+    width={size}
+    height={size}
     viewBox="0 0 64 64"
     className={className}
   >

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { CSSProperties, FC, ReactNode, useRef } from "react";
 import { ChatMessage } from "../ui/ChatMessage";
 import { TypingIndicatorComponent } from "../ui/TypingIndicator";
 import { useBranding } from "../../hooks/useBranding";
@@ -12,13 +12,13 @@ interface ChatMessagesProps {
   isTyping?: boolean;
   messageClassName?: string;
   userMessageClassName?: string;
-  messageStyle?: React.CSSProperties;
-  userMessageStyle?: React.CSSProperties;
+  messageStyle?: CSSProperties;
+  userMessageStyle?: CSSProperties;
   branding?: BrandingConfig;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-export const ChatMessages: React.FC<ChatMessagesProps> = ({
+export const ChatMessages: FC<ChatMessagesProps> = ({
   messages,
   isTyping = false,
   messageClassName = "",
@@ -31,7 +31,6 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { colors, typography } = useBranding(branding);
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     colors: {
@@ -59,12 +58,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
       ))}
 
       {/* Typing indicator */}
-      {isTyping && (
-        <TypingIndicatorComponent
-          messageClassName={messageClassName}
-          branding={branding}
-        />
-      )}
+      {isTyping && <TypingIndicatorComponent branding={branding} />}
 
       {children}
       <div ref={messagesEndRef} />

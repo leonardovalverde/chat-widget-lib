@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useIcons } from "../../hooks/useIcons";
 import { useBranding } from "../../hooks/useBranding";
 import { useServiceStatus } from "../../hooks/useServiceStatus";
-import {
-  type IconConfig,
-  type BrandingConfig,
-  type ServiceStatus,
-} from "../../types/theme";
+import { type IconConfig, type ServiceStatus } from "../../types/theme";
+import { type BrandingConfig } from "../../types/branding";
 import { defaultTheme } from "../../styles/styled";
 import {
   HeaderContainer,
@@ -15,12 +12,16 @@ import {
   HeaderText,
   BotName,
   BotSubtitle,
-  StatusIndicator,
-  StatusDot,
   Controls,
   ControlButton,
   UnreadBadge,
+  MenuContainer,
+  MenuButton,
+  MenuDropdown,
+  MenuItem,
 } from "../../styles/components/ChatHeader.styled";
+import { StatusIndicatorComponent } from "./StatusIndicatorComponent";
+import { LeoAIIcon } from "../icons/DefaultIcons";
 
 interface ChatHeaderProps {
   isMinimized?: boolean;
@@ -32,6 +33,9 @@ interface ChatHeaderProps {
   icons?: IconConfig;
   branding?: BrandingConfig;
   serviceStatus?: ServiceStatus;
+  hasHistory?: boolean;
+  onClearHistory?: () => void;
+  onExportHistory?: () => void;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
@@ -44,12 +48,15 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   icons,
   branding,
   serviceStatus,
+  hasHistory = false,
+  onClearHistory,
+  onExportHistory,
 }) => {
+  const [showMenu, setShowMenu] = useState(false);
   const { minimizeIcon } = useIcons(icons);
   const { botName, subtitle, logo, colors, typography } = useBranding(branding);
   const status = useServiceStatus(serviceStatus);
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     colors: {
@@ -62,28 +69,21 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
     },
   };
 
-  // Status indicator component
-  const StatusIndicatorComponent = () => {
-    if (status.isMaintenanceMode) {
-      return (
-        <StatusIndicator theme={theme}>
-          <StatusDot isMaintenance={true} />
-          <span style={{ color: "#f59e0b" }}>Maintenance</span>
-        </StatusIndicator>
-      );
+  // Menu handler
+  const handleMenuAction = (action: string) => {
+    switch (action) {
+      case "clear-history":
+        if (confirm("Are you sure you want to clear the chat history?")) {
+          onClearHistory?.();
+        }
+        break;
+      case "export-history":
+        onExportHistory?.();
+        break;
     }
-
-    return (
-      <StatusIndicator theme={theme}>
-        <StatusDot isOnline={status.isOnline} />
-        <span style={{ color: status.isOnline ? "#059669" : "#dc2626" }}>
-          {status.isOnline ? "Online" : "Offline"}
-        </span>
-      </StatusIndicator>
-    );
+    setShowMenu(false);
   };
 
-  // Get dynamic subtitle based on status
   const getSubtitle = () => {
     if (isTyping) return "typing...";
     if (status.isMaintenanceMode) return "under maintenance";
@@ -101,7 +101,6 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   if (isMinimized) {
     return (
       <HeaderContainer
-        as="button"
         theme={theme}
         isMinimized={isMinimized}
         style={headerStyle}
@@ -130,14 +129,20 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
               theme={theme}
               gradient={`linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`}
             >
-              {typeof icons?.botIcon === "string" ? icons.botIcon : "🤖"}
+              {typeof icons?.botIcon === "string" ? (
+                icons.botIcon
+              ) : (
+                <LeoAIIcon />
+              )}
             </Avatar>
           )}
 
           <HeaderText>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <BotName theme={theme}>{botName}</BotName>
-              {status.showDetailedStatus && <StatusIndicatorComponent />}
+              {status.showDetailedStatus && (
+                <StatusIndicatorComponent theme={theme} status={status} />
+              )}
             </div>
           </HeaderText>
         </HeaderContent>
@@ -178,20 +183,53 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             theme={theme}
             gradient={`linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`}
           >
-            {typeof icons?.botIcon === "string" ? icons.botIcon : "🤖"}
+            {typeof icons?.botIcon === "string" ? icons.botIcon : <LeoAIIcon />}
           </Avatar>
         )}
 
         <HeaderText>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <BotName theme={theme}>{botName}</BotName>
-            {status.showDetailedStatus && <StatusIndicatorComponent />}
+            {status.showDetailedStatus && (
+              <StatusIndicatorComponent status={status} theme={theme} />
+            )}
           </div>
           <BotSubtitle theme={theme}>{getSubtitle()}</BotSubtitle>
         </HeaderText>
       </HeaderContent>
 
       <Controls>
+        {hasHistory && (
+          <MenuContainer>
+            <MenuButton
+              theme={theme}
+              onClick={() => setShowMenu(!showMenu)}
+              title="Chat options"
+              aria-label="Chat options"
+            >
+              ⋯
+            </MenuButton>
+
+            {showMenu && (
+              <MenuDropdown theme={theme}>
+                <MenuItem
+                  onClick={() => handleMenuAction("export-history")}
+                  title="Download chat history as JSON"
+                >
+                  📥 Export History
+                </MenuItem>
+                <MenuItem
+                  onClick={() => handleMenuAction("clear-history")}
+                  title="Clear all chat messages"
+                  style={{ color: "#dc2626" }}
+                >
+                  🗑️ Clear History
+                </MenuItem>
+              </MenuDropdown>
+            )}
+          </MenuContainer>
+        )}
+
         <ControlButton
           theme={theme}
           variant="minimize"

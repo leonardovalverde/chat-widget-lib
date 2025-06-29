@@ -24,10 +24,9 @@ export const FloatingButton: React.FC<FloatingButtonProps> = ({
   icons,
   branding,
 }) => {
-  const { chatIcon, floatingIcon } = useIcons(icons);
+  const { floatingIcon } = useIcons(icons);
   const { colors, logo } = useBranding(branding);
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     colors: {
@@ -36,8 +35,7 @@ export const FloatingButton: React.FC<FloatingButtonProps> = ({
     },
   };
 
-  // Prioridade: logo do branding > floatingIcon > chatIcon > default
-  const iconToRender = logo || floatingIcon || chatIcon || "💬";
+  const iconToRender = logo || floatingIcon || "💬";
 
   return (
     <FloatingButtonContainer

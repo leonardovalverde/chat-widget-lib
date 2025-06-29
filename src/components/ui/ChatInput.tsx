@@ -38,7 +38,6 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   const { sendIcon } = useIcons(icons);
   const { colors, typography } = useBranding(branding);
 
-  // Create theme with merged branding
   const theme = {
     ...defaultTheme,
     colors: {
