@@ -1,3 +1,4 @@
+// Goober
 export { styled, css, keyframes, defaultTheme } from "./styles/styled";
 export type { Theme } from "./styles/styled";
 
@@ -12,8 +13,6 @@ export { ChatInput } from "./components/ui/ChatInput";
 export { TypingIndicatorComponent } from "./components/ui/TypingIndicator";
 export { FloatingButton } from "./components/ui/FloatingButton";
 export { MaintenanceBanner } from "./components/ui/MaintenanceBanner";
-
-// Styled components
 
 // Icons
 export {
