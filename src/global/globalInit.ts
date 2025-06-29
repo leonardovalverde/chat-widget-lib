@@ -1,4 +1,3 @@
-/* filepath: src/global/globalInit.ts */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ChatWidget } from "../components/ChatWidget";
@@ -14,13 +13,11 @@ declare global {
       hide: () => void;
       update: (config: Partial<GlobalChatConfig>) => void;
       isVisible: () => boolean;
-      // ADICIONAR: createInline method
       createInline: (config: InlineWidgetConfig) => void;
     };
   }
 }
 
-// ADICIONAR: Interface para widget inline
 interface InlineWidgetConfig {
   containerId: string;
   branding?: GlobalChatConfig["branding"];
@@ -38,8 +35,7 @@ class GlobalChatWidget {
   private config: GlobalChatConfig = DEFAULT_GLOBAL_CONFIG;
   private isVisible: boolean = true;
   private isInitialized: boolean = false;
-  // ADICIONAR: Map para armazenar widgets inline
-  private inlineWidgets: Map<string, ReactDOM.Root> = new Map();
+  private readonly inlineWidgets: Map<string, ReactDOM.Root> = new Map();
 
   init(config?: GlobalChatConfig) {
     console.log("[ChatWidget] Initializing...");
@@ -69,15 +65,14 @@ class GlobalChatWidget {
 
       this.container = this.createContainer();
 
-      // CORRIGIDO: Configuração do OpenAI com API key
       const openaiConfig =
         this.config.apiKey || this.config.openai
           ? {
               systemPrompt:
-                this.config.openai?.systemPrompt ||
+                this.config.openai?.systemPrompt ??
                 "You are a helpful AI assistant.",
-              maxTokens: this.config.openai?.maxTokens || 500,
-              temperature: this.config.openai?.temperature || 0.7,
+              maxTokens: this.config.openai?.maxTokens ?? 500,
+              temperature: this.config.openai?.temperature ?? 0.7,
               ...this.config.openai,
             }
           : undefined;
@@ -85,8 +80,6 @@ class GlobalChatWidget {
       const ChatWidgetComponent = React.createElement(ChatWidget, {
         ...this.config,
         openai: openaiConfig,
-        // ADICIONADO: Passar apiKey para o componente
-        apiKey: this.config.apiKey,
         onSendMessage: (message: string) => {
           console.log(
             `[ChatWidget ${this.config.chatbotId}] Message sent:`,
@@ -129,7 +122,6 @@ class GlobalChatWidget {
     }
   }
 
-  // ADICIONAR: Método createInline
   createInline(config: InlineWidgetConfig) {
     console.log("[ChatWidget] Creating inline widget with config:", config);
 
@@ -141,7 +133,6 @@ class GlobalChatWidget {
       return;
     }
 
-    // Limpar container se já existir widget
     if (this.inlineWidgets.has(config.containerId)) {
       const existingRoot = this.inlineWidgets.get(config.containerId);
       existingRoot?.unmount();
@@ -150,11 +141,9 @@ class GlobalChatWidget {
 
     container.innerHTML = "";
 
-    // Criar novo root React para este container
     const root = ReactDOM.createRoot(container);
     this.inlineWidgets.set(config.containerId, root);
 
-    // Configurar OpenAI usando config global como fallback
     const openaiConfig =
       config.apiKey || this.config.apiKey || config.openai || this.config.openai
         ? {
@@ -172,10 +161,8 @@ class GlobalChatWidget {
           }
         : undefined;
 
-    // Renderizar widget inline
     const widgetElement = React.createElement(ChatWidget, {
       openai: openaiConfig,
-      apiKey: config.apiKey || this.config.apiKey,
       branding: {
         botName: config.branding?.botName || "Chat Assistant",
         subtitle: config.branding?.subtitle || "inline mode",
@@ -255,7 +242,6 @@ class GlobalChatWidget {
       this.container = null;
     }
 
-    // ADICIONAR: Limpar widgets inline
     this.inlineWidgets.forEach((root) => {
       root.unmount();
     });
@@ -294,7 +280,6 @@ window.ChatWidget = {
   update: (config: Partial<GlobalChatConfig>) =>
     globalChatWidget.update(config),
   isVisible: () => globalChatWidget.isVisibleMethod(),
-  // ADICIONAR: Expor createInline
   createInline: (config: InlineWidgetConfig) =>
     globalChatWidget.createInline(config),
 };

@@ -1,17 +1,16 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-
-// Expor React globalmente para standalone
-if (typeof window !== "undefined") {
-  window.React = React;
-  window.ReactDOM = ReactDOM;
+import { createRoot } from "react-dom/client";
+declare global {
+  interface Window {
+    React: typeof React;
+    createRoot: typeof createRoot;
+  }
 }
 
-// CRÍTICO: Importar CSS para que seja processado pelo Vite
+if (typeof window !== "undefined") {
+  window.React = React;
+  window.createRoot = createRoot;
+}
+
 import "../styles/index.css";
-
 import "./globalInit";
-
-console.log(
-  "[ChatWidget] Standalone script loaded - CSS should be loaded separately via <link>"
-);

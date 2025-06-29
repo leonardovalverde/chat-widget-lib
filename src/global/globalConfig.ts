@@ -4,7 +4,6 @@ export interface GlobalChatConfig extends Omit<WidgetProps, "children"> {
   chatbotId?: string;
   containerId?: string;
   autoInit?: boolean;
-  // ADICIONADO: Suporte para API key
   apiKey?: string;
 }
 
