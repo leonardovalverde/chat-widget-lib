@@ -6,6 +6,7 @@ import {
 } from "./common";
 import { type StyleConfig, type ClassConfig } from "./styling";
 import { type IconConfig, type BrandingConfig } from "./branding";
+import { ServiceStatus } from "./theme";
 
 /**
  * OpenAI configuration for AI-powered responses
@@ -14,6 +15,7 @@ export interface OpenAIConfig {
   maxTokens?: number;
   temperature?: number;
   systemPrompt?: string;
+  apiKey?: string;
 }
 
 /**
@@ -27,6 +29,7 @@ export interface WidgetConfig {
   enableMockResponses?: boolean;
   defaultMinimized?: boolean;
   floatingPosition?: FloatingPosition;
+  serviceStatus?: ServiceStatus;
 }
 
 /**
@@ -40,4 +43,9 @@ export interface WidgetProps
   children?: ReactNode;
   icons?: IconConfig;
   branding?: BrandingConfig;
+  persistMessages?: boolean;
+  chatbotId?: string;
+  maxStoredMessages?: number;
+  onHistoryCleared?: () => void;
+  onHistoryExported?: (data: any) => void;
 }

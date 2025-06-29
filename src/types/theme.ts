@@ -1,5 +1,3 @@
-/* filepath: src/types/theme.ts */
-/* filepath: src/types/theme.ts */
 import { type CSSProperties, type ReactNode } from "react";
 import type { BrandingConfig } from "./branding";
 
@@ -59,6 +57,8 @@ export interface OpenAIConfig {
   temperature?: number;
   /** System prompt to guide AI behavior */
   systemPrompt?: string;
+  /** OpenAI API key */
+  apiKey?: string;
 }
 
 /**

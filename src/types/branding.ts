@@ -81,10 +81,6 @@ export interface BrandingConfig {
     textColor?: string;
     /** Secondary text color */
     textSecondary?: string;
-
-    /** DEPRECATED - mantido para compatibilidade */
-    /** @deprecated Use messagesBg instead */
-    contentBg?: string;
   };
   /** Typography settings */
   typography?: TypographyConfig;
