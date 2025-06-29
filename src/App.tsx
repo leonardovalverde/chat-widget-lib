@@ -293,6 +293,8 @@ const App: React.FC = () => {
         openai={{
           systemPrompt: getSystemPrompt(),
           maxTokens: 300,
+          apiKey:
+            "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",
         }}
       />
 

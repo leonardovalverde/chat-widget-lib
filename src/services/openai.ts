@@ -18,6 +18,7 @@ export class OpenAIService {
   private readonly systemPrompt: string;
 
   constructor(config: OpenAIConfig = {}) {
+    // ✅ PRIORIDADE CORRETA: providedKey > ENV > fallback
     this.apiKey = this.getApiKey(config.apiKey);
     this.model = "gpt-4o-mini";
     this.maxTokens = config.maxTokens ?? 500;
@@ -28,21 +29,29 @@ export class OpenAIService {
   }
 
   private getApiKey(providedKey?: string): string {
-    if (providedKey) {
+    if (providedKey && providedKey.trim() !== "") {
+      console.log("[OpenAI] Using provided API key");
       return providedKey;
     }
 
     if (
-      typeof import.meta !== "undefined" &&
-      !!import.meta.env?.VITE_OPENAI_API_KEY
+      !!import.meta.env?.VITE_OPENAI_API_KEY &&
+      import.meta.env.VITE_OPENAI_API_KEY.trim() !== ""
     ) {
+      console.log("[OpenAI] Using VITE_OPENAI_API_KEY from environment");
       return import.meta.env.VITE_OPENAI_API_KEY;
     }
 
-    if (typeof window !== "undefined" && (window as any).OPENAI_API_KEY) {
+    if (
+      typeof window !== "undefined" &&
+      (window as any).OPENAI_API_KEY &&
+      (window as any).OPENAI_API_KEY.trim() !== ""
+    ) {
+      console.log("[OpenAI] Using OPENAI_API_KEY from window");
       return (window as any).OPENAI_API_KEY;
     }
 
+    console.warn("[OpenAI] No API key found in any source");
     return "";
   }
 
@@ -98,7 +107,9 @@ export class OpenAIService {
   }
 
   isConfigured(): boolean {
-    return !!this.apiKey && this.apiKey.trim() !== "";
+    const configured = !!this.apiKey && this.apiKey.trim() !== "";
+    console.log("[OpenAI] Service configured:", configured);
+    return configured;
   }
 
   getConfig() {
@@ -107,6 +118,7 @@ export class OpenAIService {
       maxTokens: this.maxTokens,
       temperature: this.temperature,
       isConfigured: this.isConfigured(),
+      hasApiKey: !!this.apiKey,
     };
   }
 }

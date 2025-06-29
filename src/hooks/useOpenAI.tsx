@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   OpenAIService,
   type OpenAIConfig,
@@ -12,6 +12,7 @@ interface UseOpenAIProps {
   onError?: (error: Error, userMessage: string) => void;
   apiKey?: string;
 }
+
 /**
  * Custom hook to interact with OpenAI's chat API.
  * It provides methods to send messages and manage the OpenAI service configuration.
@@ -24,16 +25,52 @@ export const useOpenAI = ({
 }: UseOpenAIProps = {}) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  // ✅ Criar serviço com a chave correta
   const [service, setService] = useState<OpenAIService | null>(() => {
     if (config || apiKey) {
-      return new OpenAIService({ ...config, apiKey });
+      // ✅ Priorizar apiKey direto sobre config.apiKey
+      const finalConfig = {
+        ...config,
+        apiKey: apiKey || config?.apiKey,
+      };
+      console.log("[useOpenAI] Creating service with config:", {
+        hasApiKey: !!finalConfig.apiKey,
+        apiKey: finalConfig.apiKey
+          ? finalConfig.apiKey.substring(0, 10) + "..."
+          : "none",
+      });
+      return new OpenAIService(finalConfig);
     }
     return null;
   });
 
+  // ✅ Recriar serviço quando apiKey mudar
+  useEffect(() => {
+    if (config || apiKey) {
+      const finalConfig = {
+        ...config,
+        apiKey: apiKey || config?.apiKey,
+      };
+      console.log("[useOpenAI] Updating service with new config:", {
+        hasApiKey: !!finalConfig.apiKey,
+        apiKey: finalConfig.apiKey
+          ? finalConfig.apiKey.substring(0, 10) + "..."
+          : "none",
+      });
+      setService(new OpenAIService(finalConfig));
+    }
+  }, [config, apiKey]);
+
   const configure = useCallback(
     (newConfig: OpenAIConfig) => {
-      setService(new OpenAIService({ ...newConfig, apiKey }));
+      const finalConfig = {
+        ...newConfig,
+        apiKey: apiKey || newConfig.apiKey,
+      };
+      console.log("[useOpenAI] Manual configure with:", {
+        hasApiKey: !!finalConfig.apiKey,
+      });
+      setService(new OpenAIService(finalConfig));
     },
     [apiKey]
   );

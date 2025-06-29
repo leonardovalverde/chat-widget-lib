@@ -74,6 +74,7 @@ class GlobalChatWidget {
               maxTokens: this.config.openai?.maxTokens ?? 500,
               temperature: this.config.openai?.temperature ?? 0.7,
               ...this.config.openai,
+              apiKey: this.config.apiKey || this.config.openai?.apiKey,
             }
           : undefined;
 

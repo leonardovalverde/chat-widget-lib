@@ -12,5 +12,4 @@ if (typeof window !== "undefined") {
   window.createRoot = createRoot;
 }
 
-import "../styles/index.css";
 import "./globalInit";

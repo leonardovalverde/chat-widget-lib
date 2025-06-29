@@ -1,6 +1,6 @@
 {
   "name": "@leonardovalverde/chat-widget-lib",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "A modern, customizable React chat widget with AI integration, floating mode, and TypeScript support",
   "main": "dist/chat-widget-lib.umd.js",
