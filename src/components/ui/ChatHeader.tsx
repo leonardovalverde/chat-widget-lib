@@ -213,12 +213,14 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             {showMenu && (
               <MenuDropdown theme={theme}>
                 <MenuItem
+                  theme={theme}
                   onClick={() => handleMenuAction("export-history")}
                   title="Download chat history as JSON"
                 >
                   📥 Export History
                 </MenuItem>
                 <MenuItem
+                  theme={theme}
                   onClick={() => handleMenuAction("clear-history")}
                   title="Clear all chat messages"
                   style={{ color: "#dc2626" }}

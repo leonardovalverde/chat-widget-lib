@@ -1,11 +1,7 @@
 # Changelog
 
-## [2.1.0] - 2025-06-30
-
-### ✨ Added
-
-- Responsive chat
+## [2.1.1] - 2025-06-30
 
 ### 🐛 Fixed
 
-- Readme examples
+- Goober classes potential conflict

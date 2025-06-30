@@ -203,7 +203,7 @@ export const MenuItem = styled("button")<{ theme?: Theme }>`
   text-align: left;
   cursor: pointer;
   font-size: 14px;
-  color: ${(props) => props.theme?.colors.textColor ?? "#374151"};
+  color: ${(props) => props.theme?.colors?.textColor ?? "#374151"};
   transition: background-color 0.15s ease-in-out;
 
   &:hover {
