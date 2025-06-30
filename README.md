@@ -442,11 +442,11 @@ window.ChatWidget.update(config); // Update widget configuration
 <script src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@latest/dist/widget.umd.js"></script>
 
 <!-- Specific version (recommended for production) -->
-<script src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@2.1.1/dist/widget.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@2.1.2/dist/widget.umd.js"></script>
 
 <!-- With SRI for security -->
 <script
-  src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@2.1.1/dist/widget.umd.js"
+  src="https://cdn.jsdelivr.net/npm/@leonardovalverde/chat-widget-lib@2.1.2/dist/widget.umd.js"
   integrity="sha384-..."
   crossorigin="anonymous"
 ></script>
