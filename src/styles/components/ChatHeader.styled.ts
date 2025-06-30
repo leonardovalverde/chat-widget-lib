@@ -216,6 +216,10 @@ export const MenuItem = styled("button")<{ theme?: Theme }>`
       ${(props) => props.theme?.borderRadius.md ?? "6px"} 0 0;
   }
 
+  // This error is a bug
+  // https://github.com/styled-components/vscode-styled-components/issues/371
+  // https://stackoverflow.com/questions/71767813/getting-at-rule-or-selector-expectedts-styled-plugin9999-error-in-style-comp
+  // There's no impact on the code, just a false positive error
   &:last-child {
     border-radius: 0 0 ${(props) => props.theme?.borderRadius.md ?? "6px"}
       ${(props) => props.theme?.borderRadius.md ?? "6px"};

@@ -20,6 +20,37 @@
 
 ## 🚀 Quick Start
 
+### Before anything
+
+- Leos AI Chat integrates with the OpenAI API, so you’ll need an OpenAI API key to receive real AI-generated responses.
+- While all component props are optional, you must provide the API key to enable real responses. Otherwise, the widget will return mocked replies for testing purposes.
+
+React:
+
+```tsx
+import { ChatWidget } from "@leonardovalverde/chat-widget-lib";
+
+function App() {
+  return (
+    <ChatWidget
+      openai={{
+        apiKey: "your-openai-api-key",
+      }}
+    />
+  );
+}
+```
+
+Standalone:
+
+```html
+<script>
+  openai: {
+    apiKey: "your-openai-api-key",
+  },
+</script>
+```
+
 ### React Installation
 
 ```bash
@@ -65,6 +96,8 @@ function App() {
 
 **Perfect for any website - just add one script tag! No React, no build process, no dependencies.**
 
+#### Take care it's important to load widget CDN after configuration if you wanna cutomize it
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -81,7 +114,6 @@ function App() {
     <!-- Step 1: Configure the widget -->
     <script>
       window.ChatWidgetConfig = {
-        apiKey: "your-openai-api-key", // Your OpenAI API key
         floatingPosition: "bottom-right",
         defaultMinimized: true,
         branding: {
@@ -96,6 +128,7 @@ function App() {
         openai: {
           systemPrompt: "You are a helpful customer support assistant.",
           maxTokens: 300,
+          apiKey: "your-openai-api-key",
         },
         persistMessages: true,
         onSendMessage: (message) => {
@@ -158,6 +191,7 @@ function App() {
         colors: { primary: "#10b981" },
       },
     });
+  }):
 </script>
 ```
 
